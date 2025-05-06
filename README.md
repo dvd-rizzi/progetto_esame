@@ -1,2 +1,1 @@
-Test
-AH ok
+Ciao! Questo è il nostro progetto!
