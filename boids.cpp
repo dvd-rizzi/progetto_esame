@@ -11,7 +11,7 @@ std::uniform_real_distribution<double> x_position(-20., 20.);
 std::uniform_real_distribution<double> y_position(-20., 20.);
 std::normal_distribution<double> speed(1., 0.1);
 
-boid boid_initialize() {
+boid boids_flock::boid_initialize() {
     double theta = angle(eng);
     double v = speed(eng);
     return {x_position(eng), y_position(eng), v * std::cos(theta), v* std::sin(theta)};
@@ -26,7 +26,7 @@ void boids_flock::flock_formation() {
 
 bool boids_flock::minimum_distance(boid a, boid b) {
     double distance;
-    distance = std::sqrt((a.x_position - b.x_position) + (a.y_position - b.y_position));
+    distance = std::sqrt(pow((a.x_position - b.x_position), 2) + pow((a.y_position - b.y_position), 2));
     return d_ < distance;
 }
 

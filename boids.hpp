@@ -12,7 +12,6 @@ struct boid{
     double v_y;
 };
 
-boid boid_initialize();
 
 class boids_flock{
     int N_;
@@ -22,13 +21,15 @@ class boids_flock{
     double s_;
     double a_;
     double c_;
-
+    
     public:
-
+    
+    boid boid_initialize();
+    
     void flock_formation();
-
+    
     bool minimum_distance(boid a, boid b);
-
+    
 
 };
 
