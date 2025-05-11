@@ -23,6 +23,8 @@ class boids_flock{
     double c_;
     
     public:
+
+    boids_flock(int N_, std::vector<boid> flock_, double d_, double ds_, double s_, double a_, double c_);
     
     boid boid_initialize();
     
@@ -31,6 +33,8 @@ class boids_flock{
     bool upper_distance(boid a, boid b);
     
     bool lower_distance(boid a, boid b);
+
+    double separation_rule(boid a, boid b);
 };
 
 }
