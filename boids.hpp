@@ -30,7 +30,7 @@ class boids_flock{
     
     bool upper_distance(boid a, boid b);
     
-
+    bool lower_distance(boid a, boid b);
 };
 
 }

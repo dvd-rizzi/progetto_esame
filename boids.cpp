@@ -30,6 +30,13 @@ bool boids_flock::upper_distance(boid a, boid b) {
     return d_ < distance;
 }
 
+bool boids_flock::lower_distance(boid a, boid b) {
+    double distance;
+    distance = std::sqrt(std::pow((a.x_position - b.x_position), 2) + std::pow((a.y_position - b.y_position), 2));
+    return distance > ds_;
+}
+
+
 
 
 }
