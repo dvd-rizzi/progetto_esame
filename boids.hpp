@@ -39,9 +39,9 @@ class boids_flock{
 
     double reciprocal_distance_y(boid a, boid b);
 
-    double separation_rule_x(boid a, boid b);
+    double separation_rule_x(boid a);
 
-    double separation_rule_y(boid a, boid b);
+    double separation_rule_y(boid a);
 
     double alignment_rule_x(boid a, boid b);
 
