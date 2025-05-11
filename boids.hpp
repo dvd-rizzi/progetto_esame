@@ -28,7 +28,7 @@ class boids_flock{
     
     void flock_formation();
     
-    bool minimum_distance(boid a, boid b);
+    bool upper_distance(boid a, boid b);
     
 
 };

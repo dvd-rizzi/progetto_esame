@@ -24,9 +24,9 @@ void boids_flock::flock_formation() {
     }
 }
 
-bool boids_flock::minimum_distance(boid a, boid b) {
+bool boids_flock::upper_distance(boid a, boid b) {
     double distance;
-    distance = std::sqrt(pow((a.x_position - b.x_position), 2) + pow((a.y_position - b.y_position), 2));
+    distance = std::sqrt(std::pow((a.x_position - b.x_position), 2) + std::pow((a.y_position - b.y_position), 2));
     return d_ < distance;
 }
 
