@@ -36,7 +36,9 @@ bool boids_flock::lower_distance(boid a, boid b) {
     return distance > ds_;
 }
 
-
+double boids_flock::separation_rule(boid a, boid b) {
+    
+}
 
 
 }
