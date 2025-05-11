@@ -49,7 +49,7 @@ TEST_CASE("Checking the upper distance function") {
         boid boid2{0.,10.,1.,1.};
         std::vector<boid> flockvect={boid1,boid2};
         boids_flock flock{2,flockvect,10.,2.,0.,0.,0.};
-        CHECK(flock.upper_distance(boid1,boid2)==true);
+        CHECK(flock.upper_distance(boid1,boid2)==false);
     }
     SUBCASE("second boid closer than upper distance") {
         boid boid2{4.,3.,1.,1.};
@@ -57,5 +57,15 @@ TEST_CASE("Checking the upper distance function") {
         boids_flock flock{2,flockvect,10.,2.,0.,0.,0.};
         CHECK(flock.upper_distance(boid1,boid2)==true);
     }
+}
 
+TEST_CASE("testing the separation rule function") {
+    SUBCASE("two boids with same y position") {
+    boid boid1{0.,2.,0.,0.};
+    boid boid2{2.,2.,0.,0.};
+    std::vector<boid> flockvect={boid1,boid2};
+    boids_flock flock{2,flockvect,20.,3.,2.,0.,0.};
+    CHECK(flock.separation_rule_y(boid1,boid2)==doctest::Approx(0));
+    CHECK(flock.separation_rule_x(boid1,boid2)==doctest::Approx(-4));
+    }
 }
