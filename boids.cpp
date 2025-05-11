@@ -41,11 +41,11 @@ bool boids_flock::lower_distance(boid a, boid b) {
     return distance > ds_;
 }
 
-double reciprocal_distance_x(boid a, boid b) {
+double boids_flock::reciprocal_distance_x(boid a, boid b) {
     return a.x_position - b.x_position;
 }
 
-double reciprocal_distance_y(boid a, boid b) {
+double boids_flock::reciprocal_distance_y(boid a, boid b) {
     return a.y_position - b.y_position;
 }
 
