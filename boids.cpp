@@ -41,32 +41,59 @@ bool boids_flock::lower_distance(boid a, boid b) {
     return distance > ds_;
 }
 
+double reciprocal_distance_x(boid a, boid b) {
+    return a.x_position - b.x_position;
+}
+
+double reciprocal_distance_y(boid a, boid b) {
+    return a.y_position - b.y_position;
+}
+
 double boids_flock::separation_rule_x(boid a, boid b) {
-    int N_ = flock_.size();
+    int const& N_ = flock_.size();
     double v_1x;
     for (auto const& a : flock_) {
-        for (auto const& b : flock_) {
-            if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
-                double reciprocal_distance = std::abs(a.x_position - b.x_position);
-                v_1x += reciprocal_distance;
-            }
+        if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
+            v_1x += reciprocal_distance_x(a, b);
         }
     }
     return -s_ * v_1x;
 }
 
 double boids_flock::separation_rule_y(boid a, boid b) {
-    int N_ = flock_.size();
+    int const& N_ = flock_.size();
     double v_1y;
     for (auto const& a : flock_) {
-        for (auto const& b : flock_) {
-            if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
-                double reciprocal_distance = std::abs(a.y_position - b.y_position);
-                v_1y += reciprocal_distance;
-            }
+        if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
+            v_1y += reciprocal_distance_y(a, b);
         }
     }
     return -s_ * v_1y;
 }
+
+/*
+double boids_flock::alignment_rule_x(boid a, boid b) {
+    int const& N_ = flock_.size();
+    double v_2x;
+    for (auto const& a : flock_) {
+        for (auto const& b : flock_) {
+            if (a != b && lower_distance(a, b) == true && upper_distance(a, b) == true) {
+               // double mean_velocity +=  
+            }
+        }
+    }
+}
+
+double boids_flock::alignment_rule_y(boid a, boid b) {
+    int const& N_ = flock_.size();
+    double v_2y;
+    for (auto const& a : flock_) {
+        for (auto const& b : flock_) {
+            if (a != b && lower_distance(a, b) == true && upper_distance(a, b) == true) {
+                
+            }
+        }
+    }
+}*/
 
 }
