@@ -41,19 +41,32 @@ bool boids_flock::lower_distance(boid a, boid b) {
     return distance > ds_;
 }
 
-double boids_flock::separation_rule(boid a, boid b) {
+double boids_flock::separation_rule_x(boid a, boid b) {
     int N_ = flock_.size();
-    double v_1;
+    double v_1x;
     for (auto const& a : flock_) {
         for (auto const& b : flock_) {
             if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
-                double reciprocal_distance = std::sqrt(std::pow((a.x_position - b.x_position), 2) + std::pow((a.y_position - b.y_position), 2));
-                v_1 += reciprocal_distance;
+                double reciprocal_distance = std::abs(a.x_position - b.x_position);
+                v_1x += reciprocal_distance;
             }
         }
     }
-    return -s_ * v_1;
+    return -s_ * v_1x;
 }
 
+double boids_flock::separation_rule_y(boid a, boid b) {
+    int N_ = flock_.size();
+    double v_1y;
+    for (auto const& a : flock_) {
+        for (auto const& b : flock_) {
+            if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
+                double reciprocal_distance = std::abs(a.y_position - b.y_position);
+                v_1y += reciprocal_distance;
+            }
+        }
+    }
+    return -s_ * v_1y;
+}
 
 }
