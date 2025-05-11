@@ -24,7 +24,7 @@ class boids_flock{
     
     public:
 
-    boids_flock(int N_, std::vector<boid> flock_, double d_, double ds_, double s_, double a_, double c_);
+    boids_flock(int N, std::vector<boid> flock, double d, double ds, double s, double a, double c) : N_{N}, flock_{flock}, d_{d}, ds_{ds}, s_{s}, a_{a}, c_{c} {}
     
     boid boid_initialize();
     

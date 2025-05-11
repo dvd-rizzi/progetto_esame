@@ -11,6 +11,7 @@ std::uniform_real_distribution<double> x_position(-20., 20.);
 std::uniform_real_distribution<double> y_position(-20., 20.);
 std::normal_distribution<double> speed(1., 0.1);
 
+
 boid boids_flock::boid_initialize() {
     double theta = angle(eng);
     double v = speed(eng);
@@ -37,7 +38,12 @@ bool boids_flock::lower_distance(boid a, boid b) {
 }
 
 double boids_flock::separation_rule(boid a, boid b) {
-    
+    int N_ = flock_.size();
+    for (auto const& v1 : flock_) {
+        for (auto const& v2 : flock_) {
+
+        }
+    }
 }
 
 
