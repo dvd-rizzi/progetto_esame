@@ -12,6 +12,7 @@ struct boid{
     double v_y;
 };
 
+bool operator!=(boid a, boid b); 
 
 class boids_flock{
     int N_;
@@ -35,6 +36,7 @@ class boids_flock{
     bool lower_distance(boid a, boid b);
 
     double separation_rule(boid a, boid b);
+
 };
 
 }

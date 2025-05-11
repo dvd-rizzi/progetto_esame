@@ -12,6 +12,10 @@ std::uniform_real_distribution<double> y_position(-20., 20.);
 std::normal_distribution<double> speed(1., 0.1);
 
 
+bool operator!=(boid a, boid b) {
+    return a.x_position != b.x_position && a.y_position != b.y_position && a.v_x != b.v_x && a.v_y != b.v_y; 
+}
+
 boid boids_flock::boid_initialize() {
     double theta = angle(eng);
     double v = speed(eng);
@@ -28,7 +32,7 @@ void boids_flock::flock_formation() {
 bool boids_flock::upper_distance(boid a, boid b) {
     double distance;
     distance = std::sqrt(std::pow((a.x_position - b.x_position), 2) + std::pow((a.y_position - b.y_position), 2));
-    return d_ < distance;
+    return distance < d_;
 }
 
 bool boids_flock::lower_distance(boid a, boid b) {
@@ -39,11 +43,16 @@ bool boids_flock::lower_distance(boid a, boid b) {
 
 double boids_flock::separation_rule(boid a, boid b) {
     int N_ = flock_.size();
-    for (auto const& v1 : flock_) {
-        for (auto const& v2 : flock_) {
-
+    double v_1;
+    for (auto const& a : flock_) {
+        for (auto const& b : flock_) {
+            if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
+                double reciprocal_distance = std::sqrt(std::pow((a.x_position - b.x_position), 2) + std::pow((a.y_position - b.y_position), 2));
+                v_1 += reciprocal_distance;
+            }
         }
     }
+    return -s_ * v_1;
 }
 
 
