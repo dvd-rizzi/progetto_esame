@@ -65,7 +65,7 @@ TEST_CASE("testing the separation rule function") {
     boid boid2{2.,2.,0.,0.};
     std::vector<boid> flockvect={boid1,boid2};
     boids_flock flock{2,flockvect,20.,3.,2.,0.,0.};
-    CHECK(flock.separation_rule_y(boid1,boid2)==doctest::Approx(0));
-    CHECK(flock.separation_rule_x(boid1,boid2)==doctest::Approx(-4));
+    CHECK(flock.separation_rule_y(boid1)==doctest::Approx(0));
+    CHECK(flock.separation_rule_x(boid1)==doctest::Approx(-4));
     }
 }
