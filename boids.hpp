@@ -47,9 +47,6 @@ class boids_flock{
 
     double alignment_rule_y(boid a, boid b);
 
-    
-
-
 };
 
 }

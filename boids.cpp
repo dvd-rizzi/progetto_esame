@@ -50,7 +50,6 @@ double reciprocal_distance_y(boid a, boid b) {
 }
 
 double boids_flock::separation_rule_x(boid a, boid b) {
-    int const& N_ = flock_.size();
     double v_1x;
     for (auto const& a : flock_) {
         if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
@@ -61,7 +60,6 @@ double boids_flock::separation_rule_x(boid a, boid b) {
 }
 
 double boids_flock::separation_rule_y(boid a, boid b) {
-    int const& N_ = flock_.size();
     double v_1y;
     for (auto const& a : flock_) {
         if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
