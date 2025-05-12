@@ -68,4 +68,23 @@ TEST_CASE("testing the separation rule function") {
     CHECK(flock.separation_rule_y(boid1)==doctest::Approx(0));
     CHECK(flock.separation_rule_x(boid1)==doctest::Approx(-4));
     }
+
+    SUBCASE("two boids with same x position") {
+    boid boid1{2.,0.,0.,0.};
+    boid boid2{2.,2.,0.,0.};
+    std::vector<boid> flockvect={boid1,boid2};
+    boids_flock flock{2,flockvect,20.,3.,2.,0.,0.};
+    CHECK(flock.separation_rule_y(boid1)==doctest::Approx(-4));
+    CHECK(flock.separation_rule_x(boid1)==doctest::Approx(0));
+    }
+
+    SUBCASE("two boids with both different") {
+    boid boid1{0.,0.,0.,0.};
+    boid boid2{4.,3.,0.,0.};
+    std::vector<boid> flockvect={boid1,boid2};
+    boids_flock flock{2,flockvect,20.,6.,3.,0.,0.};
+    CHECK(flock.separation_rule_y(boid1)==doctest::Approx(-9));
+    CHECK(flock.separation_rule_x(boid1)==doctest::Approx(-12));
+    
+    }
 }
