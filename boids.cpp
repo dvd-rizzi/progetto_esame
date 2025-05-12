@@ -13,7 +13,7 @@ std::normal_distribution<double> speed(1., 0.1);
 
 
 bool operator!=(boid a, boid b) {
-    return a.x_position != b.x_position && a.y_position != b.y_position && a.v_x != b.v_x && a.v_y != b.v_y; 
+    return a.x_position != b.x_position || a.y_position != b.y_position || a.v_x != b.v_x || a.v_y != b.v_y; 
 }
 
 boid boids_flock::boid_initialize() {
@@ -50,7 +50,7 @@ double boids_flock::reciprocal_distance_y(boid a, boid b) {
 }
 
 double boids_flock::separation_rule_x(boid a) {
-    double v_1x;
+    double v_1x{0.};
     for (auto const& b : flock_) {
         if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
             v_1x += reciprocal_distance_x(a, b);
@@ -60,7 +60,7 @@ double boids_flock::separation_rule_x(boid a) {
 }
 
 double boids_flock::separation_rule_y(boid a) {
-    double v_1y;
+    double v_1y{0.};
     for (auto const& b : flock_) {
         if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
             v_1y += reciprocal_distance_y(a, b);
