@@ -78,13 +78,21 @@ TEST_CASE("testing the separation rule function") {
     CHECK(flock.separation_rule_x(boid1)==doctest::Approx(0));
     }
 
-    SUBCASE("two boids with both different") {
+    SUBCASE("two boids with different x and y values") {
     boid boid1{0.,0.,0.,0.};
     boid boid2{4.,3.,0.,0.};
     std::vector<boid> flockvect={boid1,boid2};
     boids_flock flock{2,flockvect,20.,6.,3.,0.,0.};
     CHECK(flock.separation_rule_y(boid1)==doctest::Approx(-9));
     CHECK(flock.separation_rule_x(boid1)==doctest::Approx(-12));
-    
+    }
+
+    SUBCASE("two boids exactly on lower distance") {
+    boid boid1{0.,0.,0.,0.};
+    boid boid2{4.,3.,0.,0.};
+    std::vector<boid> flockvect={boid1,boid2};
+    boids_flock flock{2,flockvect,20.,5.,3.,0.,0.};
+    CHECK(flock.separation_rule_y(boid1)==doctest::Approx(-9));
+    CHECK(flock.separation_rule_x(boid1)==doctest::Approx(-12));
     }
 }

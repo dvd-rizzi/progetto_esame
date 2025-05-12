@@ -42,11 +42,11 @@ bool boids_flock::lower_distance(boid a, boid b) {
 }
 
 double boids_flock::reciprocal_distance_x(boid a, boid b) {
-    return a.x_position - b.x_position;
+    return b.x_position - a.x_position;
 }
 
 double boids_flock::reciprocal_distance_y(boid a, boid b) {
-    return a.y_position - b.y_position;
+    return b.y_position - a.y_position;
 }
 
 double boids_flock::separation_rule_x(boid a) {
