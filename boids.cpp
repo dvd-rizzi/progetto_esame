@@ -69,29 +69,30 @@ double boids_flock::separation_rule_y(boid a) {
     return -s_ * v_1y;
 }
 
-/*
-double boids_flock::alignment_rule_x(boid a, boid b) {
+
+double boids_flock::alignment_rule_x(boid a) {
     int const& N_ = flock_.size();
     double v_2x;
-    for (auto const& a : flock_) {
-        for (auto const& b : flock_) {
-            if (a != b && lower_distance(a, b) == true && upper_distance(a, b) == true) {
-               // double mean_velocity +=  
-            }
+    for (auto const& b : flock_) {
+        if (a != b && lower_distance(a, b) == true && upper_distance(a, b) == true) {
+            double mean_velocity =+ (b.v_x)/(N_ -1);
+            v_2x = mean_velocity - a.v_x;
         }
     }
+    return a_ * v_2x;
 }
 
-double boids_flock::alignment_rule_y(boid a, boid b) {
+double boids_flock::alignment_rule_y(boid a) {
     int const& N_ = flock_.size();
     double v_2y;
-    for (auto const& a : flock_) {
-        for (auto const& b : flock_) {
-            if (a != b && lower_distance(a, b) == true && upper_distance(a, b) == true) {
-                
-            }
+    for (auto const& b : flock_) {
+        if (a != b && lower_distance(a, b) == true && upper_distance(a, b) == true) {
+            double mean_velocity =+ (b.v_y)/(N_ -1);
+            v_2y = mean_velocity - a.v_y;
+
         }
     }
-}*/
+    return a_ * v_2y;
+}
 
 }

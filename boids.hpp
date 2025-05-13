@@ -42,9 +42,9 @@ class boids_flock {
 
   double separation_rule_y(boid a);
 
-  double alignment_rule_x(boid a, boid b);
+  double alignment_rule_x(boid a);
 
-  double alignment_rule_y(boid a, boid b);
+  double alignment_rule_y(boid a);
 };
 
 }  // namespace project

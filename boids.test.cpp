@@ -68,6 +68,8 @@ TEST_CASE("testing the separation rule function") {
     boids_flock flock{2, flockvect, 20., 3., 2., 0., 0.};
     CHECK(flock.separation_rule_y(boid1) == doctest::Approx(0));
     CHECK(flock.separation_rule_x(boid1) == doctest::Approx(-4));
+    CHECK(flock.separation_rule_y(boid2) == doctest::Approx(0));
+    CHECK(flock.separation_rule_x(boid2) == doctest::Approx(4));
   }
 
   SUBCASE("two boids with same x position") {
@@ -77,6 +79,8 @@ TEST_CASE("testing the separation rule function") {
     boids_flock flock{2, flockvect, 20., 3., 2., 0., 0.};
     CHECK(flock.separation_rule_y(boid1) == doctest::Approx(-4));
     CHECK(flock.separation_rule_x(boid1) == doctest::Approx(0));
+    CHECK(flock.separation_rule_y(boid2) == doctest::Approx(4));
+    CHECK(flock.separation_rule_x(boid2) == doctest::Approx(0));
   }
 
   SUBCASE("two boids with different x and y values") {
@@ -86,6 +90,8 @@ TEST_CASE("testing the separation rule function") {
     boids_flock flock{2, flockvect, 20., 6., 3., 0., 0.};
     CHECK(flock.separation_rule_y(boid1) == doctest::Approx(-9));
     CHECK(flock.separation_rule_x(boid1) == doctest::Approx(-12));
+    CHECK(flock.separation_rule_y(boid2) == doctest::Approx(9));
+    CHECK(flock.separation_rule_x(boid2) == doctest::Approx(12));
   }
 
   SUBCASE("two boids exactly on lower distance") {
@@ -95,7 +101,26 @@ TEST_CASE("testing the separation rule function") {
     boids_flock flock{2, flockvect, 20., 5., 3., 0., 0.};
     CHECK(flock.separation_rule_y(boid1) == doctest::Approx(-9));
     CHECK(flock.separation_rule_x(boid1) == doctest::Approx(-12));
+    CHECK(flock.separation_rule_y(boid2) == doctest::Approx(9));
+    CHECK(flock.separation_rule_x(boid2) == doctest::Approx(12));
   }
+}
+
+TEST_CASE("Testing the alignment rule function") {
+  SUBCASE("The boids are still") {
+    boid boid1{0., 0., 0., 0.};
+    boid boid2{10., 10., 0., 0.};
+    boid boid3{14., 3., 0., 0.};
+    std::vector<boid> flockvect = {boid1, boid2, boid3};
+    boids_flock flock{3, flockvect, 20., 2., 0., 0.5, 0.};
+    CHECK(flock.alignment_rule_x(boid1) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_y(boid1) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_x(boid2) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_y(boid2) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_x(boid3) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_y(boid3) == doctest::Approx(0.));
+  }
+  //AGGIUNGERE MOLTI ALTRI TEST!!!!
 }
 
 /*
