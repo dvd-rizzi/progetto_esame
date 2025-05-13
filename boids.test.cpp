@@ -97,3 +97,29 @@ TEST_CASE("testing the separation rule function") {
     CHECK(flock.separation_rule_x(boid1) == doctest::Approx(-12));
   }
 }
+
+/*
+TEST_CASE("testing the center of mass function") {
+  SUBCASE("three boids") {
+    boid boid1{1., 1., 0., 0.};
+    boid boid2{4., -3., 0., 0.};
+    boid boid3{-3., 6., 0., 0.};
+    std::vector<boid> flockvect = {boid1, boid2, boid3};
+    boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
+    CHECK(flock.center_of_mass_x == doctest::Approx(1));
+    CHECK(flock.center_of_mass_y == doctest::Approx(2));
+  }
+
+  SUBCASE("five boids") {
+    boid boid1{-2., -2., 0., 0.};
+    boid boid2{6., -3., 0., 0.};
+    boid boid3{-1., 9., 0., 0.};
+    boid boid4{-10., 0., 0., 0.};
+    boid boid5{2., 4., 0., 0.};
+    std::vector<boid> flockvect = {boid1, boid2, boid3, boid4, boid5};
+    boids_flock flock{5, flockvect, 20., 5., 0., 0., 0.};
+    CHECK(flock.center_of_mass_x == doctest::Approx(-1));
+    CHECK(flock.center_of_mass_y == doctest::Approx(2));
+  }
+}
+*/
