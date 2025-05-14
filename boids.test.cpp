@@ -146,5 +146,6 @@ TEST_CASE("testing the center of mass function") {
     CHECK(flock.center_of_mass_x == doctest::Approx(-1));
     CHECK(flock.center_of_mass_y == doctest::Approx(2));
   }
+
 }
 */
