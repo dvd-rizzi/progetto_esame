@@ -95,4 +95,22 @@ double boids_flock::alignment_rule_y(boid a) {
     return a_ * v_2y;
 }
 
+double boids_flock::center_of_mass_x() {
+    int const& N_ = flock_.size();
+    double sum;
+    for (auto const& a : flock_) {
+        sum+=a.x_position;
+    }
+    return sum/N_;
+}
+
+
+double boids_flock::center_of_mass_y() {
+    int const& N_ = flock_.size();
+    double sum;
+    for (auto const& a : flock_) {
+        sum+=a.y_position;
+    }
+    return sum/N_;
+}
 }

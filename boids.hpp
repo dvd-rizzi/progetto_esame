@@ -45,6 +45,10 @@ class boids_flock {
   double alignment_rule_x(boid a);
 
   double alignment_rule_y(boid a);
+
+  double center_of_mass_x();
+
+  double center_of_mass_y();
 };
 
 }  // namespace project

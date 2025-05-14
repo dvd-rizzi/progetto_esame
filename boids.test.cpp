@@ -123,7 +123,7 @@ TEST_CASE("Testing the alignment rule function") {
   //AGGIUNGERE MOLTI ALTRI TEST!!!!
 }
 
-/*
+
 TEST_CASE("testing the center of mass function") {
   SUBCASE("three boids") {
     boid boid1{1., 1., 0., 0.};
@@ -131,8 +131,8 @@ TEST_CASE("testing the center of mass function") {
     boid boid3{-3., 6., 0., 0.};
     std::vector<boid> flockvect = {boid1, boid2, boid3};
     boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
-    CHECK(flock.center_of_mass_x == doctest::Approx(1));
-    CHECK(flock.center_of_mass_y == doctest::Approx(2));
+    CHECK(flock.center_of_mass_x() == doctest::Approx(0.666).epsilon(0.01));
+    CHECK(flock.center_of_mass_y() == doctest::Approx(1.333).epsilon(0.01));
   }
 
   SUBCASE("five boids") {
@@ -143,9 +143,28 @@ TEST_CASE("testing the center of mass function") {
     boid boid5{2., 4., 0., 0.};
     std::vector<boid> flockvect = {boid1, boid2, boid3, boid4, boid5};
     boids_flock flock{5, flockvect, 20., 5., 0., 0., 0.};
-    CHECK(flock.center_of_mass_x == doctest::Approx(-1));
-    CHECK(flock.center_of_mass_y == doctest::Approx(2));
+    CHECK(flock.center_of_mass_x() == doctest::Approx(-1));
+    CHECK(flock.center_of_mass_y() == doctest::Approx(1.6));
+  }
+    
+  SUBCASE("three boids in the same position") {
+    boid boid1{1., 1., 0., 0.};
+    boid boid2{1., 1., 0., 0.};
+    boid boid3{1., 1., 0., 0.};
+    std::vector<boid> flockvect = {boid1, boid2, boid3};
+    boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
+    CHECK(flock.center_of_mass_x() == doctest::Approx(1));
+    CHECK(flock.center_of_mass_y() == doctest::Approx(1));
+  }
+
+  SUBCASE("three, widely apart boids") {
+    boid boid1{-75., -80., 0., 0.};
+    boid boid2{-30., 50., 0., 0.};
+    boid boid3{90., 90., 0., 0.};
+    std::vector<boid> flockvect = {boid1, boid2, boid3};
+    boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
+    CHECK(flock.center_of_mass_x() == doctest::Approx(-5));
+    CHECK(flock.center_of_mass_y() == doctest::Approx(20));
   }
 
 }
-*/
