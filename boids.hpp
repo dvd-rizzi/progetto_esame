@@ -49,6 +49,10 @@ class boids_flock {
   double center_of_mass_x();
 
   double center_of_mass_y();
+
+  double cohesion_rule_x(boid a);
+
+  double cohesion_rule_y(boid a);
 };
 
 }  // namespace project

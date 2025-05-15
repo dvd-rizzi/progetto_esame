@@ -113,4 +113,15 @@ double boids_flock::center_of_mass_y() {
     }
     return sum/N_;
 }
+
+double boids_flock::cohesion_rule_x(boid a) {
+    return c_ * (center_of_mass_x() - a.x_position);
+}
+
+double boids_flock::cohesion_rule_y(boid a) {
+    return c_ * (center_of_mass_y() - a.y_position);
+}
+
+
+
 }
