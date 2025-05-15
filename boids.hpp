@@ -53,6 +53,8 @@ class boids_flock {
   double cohesion_rule_x(boid a);
 
   double cohesion_rule_y(boid a);
+
+  void corner_behaviour(boid a);
 };
 
 }  // namespace project

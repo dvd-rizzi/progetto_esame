@@ -122,6 +122,13 @@ double boids_flock::cohesion_rule_y(boid a) {
     return c_ * (center_of_mass_y() - a.y_position);
 }
 
-
+void boids_flock::corner_behaviour(boid a) {
+    if(a.x_position <= -20 || a.x_position >= 20) {
+        a.v_x = -a.v_x;
+    }
+    if(a.y_position <= -20 || a.y_position >= 20) {
+        a.v_y = -a.v_y;
+    }
+}
 
 }

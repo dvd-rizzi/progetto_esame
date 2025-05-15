@@ -167,4 +167,13 @@ TEST_CASE("testing the center of mass function") {
     CHECK(flock.center_of_mass_y() == doctest::Approx(20));
   }
 
+  
+}
+
+TEST_CASE("Checking the cohesion rule") {
+  //test
+}
+
+TEST_CASE("Checking the corner behaviour") {
+  //test
 }
