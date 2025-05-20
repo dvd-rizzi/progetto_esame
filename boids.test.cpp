@@ -175,5 +175,51 @@ TEST_CASE("Checking the cohesion rule") {
 }
 
 TEST_CASE("Checking the corner behaviour") {
-  //test
+  SUBCASE("The boid hits the upper/right/lower/left corner") {
+    boid boid1{2., 20., -3., 10.};
+    boid expected1{2., 20., -3., -10.};
+    boid boid2{20., -10., 8., 3.};
+    boid expected2{20., -10., -8., 3.};
+    boid boid3{-15., -20., 10., -7.};
+    boid expected3{-15., -20., 10., 7.};
+    boid boid4{-20., 11., -10., -7.};
+    boid expected4{-20., 11., 10., -7.};
+    std::vector<boid> flockvect = {boid1, boid2, boid3, boid4};
+    boids_flock flock{4, flockvect, 20., 5., 0., 0., 0.};
+    flock.corner_behaviour();
+    const boid& result1 = flock.get_flock()[0];
+    const boid& result2 = flock.get_flock()[1];
+    const boid& result3 = flock.get_flock()[2];
+    const boid& result4 = flock.get_flock()[3];
+    CHECK(result1.v_y == expected1.v_y);
+    CHECK(result2.v_x == expected2.v_x);
+    CHECK(result3.v_y == expected3.v_y);
+    CHECK(result4.v_x == expected4.v_x);
+  }
+
+  SUBCASE("boids exactly in the corners") {
+    boid boid1{20., 20., -3., 10.};
+    boid expected1{20., 20., 3., -10.};
+    boid boid2{20., -20., 8., 3.};
+    boid expected2{20., -20., -8., -3.};
+    boid boid3{-20., -20., 10., -7.};
+    boid expected3{-20., -20., -10., 7.};
+    boid boid4{-20., 20., -10., -7.};
+    boid expected4{-20., 20., 10., 7.};
+    std::vector<boid> flockvect = {boid1, boid2, boid3, boid4};
+    boids_flock flock{4, flockvect, 20., 5., 0., 0., 0.};
+    flock.corner_behaviour();
+    const boid& result1 = flock.get_flock()[0];
+    const boid& result2 = flock.get_flock()[1];
+    const boid& result3 = flock.get_flock()[2];
+    const boid& result4 = flock.get_flock()[3];
+    CHECK(result1.v_x == expected1.v_x);
+    CHECK(result1.v_y == expected1.v_y);
+    CHECK(result2.v_x == expected2.v_x);
+    CHECK(result2.v_y == expected2.v_y);
+    CHECK(result3.v_x == expected3.v_x);
+    CHECK(result3.v_y == expected3.v_y);
+    CHECK(result4.v_x == expected4.v_x);
+    CHECK(result4.v_y == expected4.v_y);
+  }
 }

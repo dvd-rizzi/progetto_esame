@@ -26,6 +26,8 @@ class boids_flock {
  public:
   boids_flock(int N, std::vector<boid> flock, double d, double ds, double s, double a, double c) : N_{N}, flock_{flock}, d_{d}, ds_{ds}, s_{s}, a_{a}, c_{c} {}
 
+  const std::vector<boid>& get_flock() const;
+
   boid boid_initialize();
 
   void flock_formation();
@@ -54,7 +56,7 @@ class boids_flock {
 
   double cohesion_rule_y(boid a);
 
-  void corner_behaviour(boid a);
+  void corner_behaviour();
 };
 
 }  // namespace project

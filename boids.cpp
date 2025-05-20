@@ -11,6 +11,9 @@ std::uniform_real_distribution<double> x_position(-20., 20.);
 std::uniform_real_distribution<double> y_position(-20., 20.);
 std::normal_distribution<double> speed(1., 0.1);
 
+const std::vector<boid>& boids_flock::get_flock() const {
+    return flock_;
+}
 
 bool operator!=(boid a, boid b) {
     return a.x_position != b.x_position || a.y_position != b.y_position || a.v_x != b.v_x || a.v_y != b.v_y; 
@@ -122,12 +125,14 @@ double boids_flock::cohesion_rule_y(boid a) {
     return c_ * (center_of_mass_y() - a.y_position);
 }
 
-void boids_flock::corner_behaviour(boid a) {
-    if(a.x_position <= -20 || a.x_position >= 20) {
-        a.v_x = -a.v_x;
-    }
-    if(a.y_position <= -20 || a.y_position >= 20) {
-        a.v_y = -a.v_y;
+void boids_flock::corner_behaviour() {
+    for(auto& a : flock_) {
+        if(a.x_position <= -20 || a.x_position >= 20) {
+            a.v_x = -a.v_x;
+        }
+        if(a.y_position <= -20 || a.y_position >= 20) {
+            a.v_y = -a.v_y;
+        }
     }
 }
 
