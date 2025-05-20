@@ -47,9 +47,9 @@ class boids_flock {
 
   double alignment_rule_y(boid a);
 
-  double center_of_mass_x();
+  double center_of_mass_x_nearby(boid a);
 
-  double center_of_mass_y();
+  double center_of_mass_y_nearby(boid a);
 
   double cohesion_rule_x(boid a);
 

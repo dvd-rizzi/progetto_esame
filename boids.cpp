@@ -76,50 +76,63 @@ double boids_flock::separation_rule_y(boid a) {
 
 double boids_flock::alignment_rule_x(boid a) {
     double v_2x{0.};
+    double sum_vx{0.};
+    int nearby_boids{0};
     for (auto const& b : flock_) {
         if (a != b && lower_distance(a, b) == true && upper_distance(a, b) == true) {
-            double mean_velocity =+ (b.v_x)/(N_ -1);
-            v_2x = mean_velocity - a.v_x;
+            sum_vx += b.v_x;
+            nearby_boids += 1;
         }
     }
+    v_2x = (sum_vx / nearby_boids) - a.v_x;
     return a_ * v_2x;
 }
 
 double boids_flock::alignment_rule_y(boid a) {
     double v_2y{0.};
+    double sum_vy{0.};
+    int nearby_boids{0};
     for (auto const& b : flock_) {
         if (a != b && lower_distance(a, b) == true && upper_distance(a, b) == true) {
-            double mean_velocity =+ (b.v_y)/(N_ -1);
-            v_2y = mean_velocity - a.v_y;
-
+            sum_vy += b.v_y;
+            nearby_boids += 1;
         }
     }
+    v_2y = (sum_vy / nearby_boids) - a.v_y;
     return a_ * v_2y;
 }
 
-double boids_flock::center_of_mass_x() {
+double boids_flock::center_of_mass_x_nearby(boid a) {
     double sum{0.};
-    for (auto const& a : flock_) {
-        sum+=a.x_position;
+    int nearby_boids{0};
+    for (auto const& b : flock_) {
+        if(lower_distance(a, b) == true && upper_distance(a, b) == true){
+            sum+=b.x_position;
+            nearby_boids += 1;
+        }
     }
-    return sum/N_;
+    return sum/nearby_boids;
 }
 
 
-double boids_flock::center_of_mass_y() {
+double boids_flock::center_of_mass_y_nearby(boid a) {
     double sum{0.};
-    for (auto const& a : flock_) {
-        sum+=a.y_position;
+    int nearby_boids{0};
+    for (auto const& b : flock_) {
+        if(lower_distance(a, b) == true && upper_distance(a, b) == true) {
+            sum+=b.y_position;
+            nearby_boids += 1;
+        }
     }
-    return sum/N_;
+    return sum/nearby_boids;
 }
 
 double boids_flock::cohesion_rule_x(boid a) {
-    return c_ * (center_of_mass_x() - a.x_position);
+    return c_ * (center_of_mass_x_nearby(a) - a.x_position);
 }
 
 double boids_flock::cohesion_rule_y(boid a) {
-    return c_ * (center_of_mass_y() - a.y_position);
+    return c_ * (center_of_mass_y_nearby(a) - a.y_position);
 }
 
 void boids_flock::corner_behaviour() {
@@ -137,19 +150,17 @@ double boids_flock::mean_velocity() {
     double sum_vx{0.};
     double sum_vy{0.};
     double v_tot{0.};
-    for(auto& a : flock_) {
-        double sum_vx = std::accumulate(flock_.begin(), flock_.end(), 0, [] (boid const& a, boid const& b) {return a.v_x + b.v_x;});
-        double sum_vy = std::accumulate(flock_.begin(), flock_.end(), 0, [] (boid const& a, boid const& b) {return a.v_y + b.v_y;});
-    }
-    double v_tot = std::sqrt(std::pow(sum_vx, 2) + std::pow(sum_vy, 2));
+    sum_vx = std::accumulate(flock_.begin(), flock_.end(), 0, [] (double accumulate, boid const& c) {return accumulate + c.v_x;});
+    sum_vy = std::accumulate(flock_.begin(), flock_.end(), 0, [] (double accumulate, boid const& c) {return accumulate + c.v_y;});
+    v_tot = std::sqrt(std::pow(sum_vx, 2) + std::pow(sum_vy, 2));
     return v_tot / N_;
 }
 
 double boids_flock::velocity_st_deviation(){
-
+    return 0;
 }
 
 double boids_flock::mean_distance(){
-
+    return 0;
 }
 }
