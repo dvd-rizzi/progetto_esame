@@ -1,7 +1,6 @@
 #ifndef BOIDS_HPP
 #define BOIDS_HPP
 #include <vector>
-#include<algorithm>
 
 namespace project {
 
@@ -57,6 +56,12 @@ class boids_flock {
   double cohesion_rule_y(boid a);
 
   void corner_behaviour();
+
+  double mean_velocity();
+
+  double velocity_st_deviation();
+
+  double mean_distance();
 };
 
 }  // namespace project
