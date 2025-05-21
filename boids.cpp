@@ -2,6 +2,7 @@
 #include <random>
 #include <cmath>
 #include <algorithm>
+#include <stdexcept>
 
 namespace project {
 
@@ -111,6 +112,9 @@ double boids_flock::center_of_mass_x_nearby(boid a) {
             nearby_boids += 1;
         }
     }
+    if (nearby_boids==0) {
+        throw std::runtime_error{"no boids are between lower and upper distances"};
+    };
     return sum/nearby_boids;
 }
 
@@ -124,6 +128,9 @@ double boids_flock::center_of_mass_y_nearby(boid a) {
             nearby_boids += 1;
         }
     }
+    if (nearby_boids==0) {
+        throw std::runtime_error{"no boids are between lower and upper distances"};
+    };
     return sum/nearby_boids;
 }
 

@@ -196,25 +196,33 @@ TEST_CASE("testing the center of mass function") {
     CHECK(flock.center_of_mass_y_nearby(b1) == doctest::Approx(2.5));
   }
     
-  /*SUBCASE("three boids in the same position") {
+  SUBCASE("three boids in the same position") {
     project::boid b1{1., 1., 0., 0.};
     project::boid b2{1., 1., 0., 0.};
     project::boid b3{1., 1., 0., 0.};
     std::vector<project::boid> flockvect = {b1, b2, b3};
     project::boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
-    CHECK(flock.center_of_mass_x_nearby(b1) == doctest::Approx(1));
-    CHECK(flock.center_of_mass_y_nearby(b1) == doctest::Approx(1));
+    CHECK_THROWS(flock.center_of_mass_x_nearby(b1));
+    CHECK_THROWS(flock.center_of_mass_y_nearby(b1));
+    CHECK_THROWS(flock.center_of_mass_x_nearby(b2));
+    CHECK_THROWS(flock.center_of_mass_y_nearby(b2));
+    CHECK_THROWS(flock.center_of_mass_x_nearby(b3));
+    CHECK_THROWS(flock.center_of_mass_y_nearby(b3));
   }
-                                                                        DA GESTIRE CON EXCEPTION
+
   SUBCASE("three, widely apart boids") {
     project::boid b1{-75., -80., 0., 0.};
     project::boid b2{-30., 50., 0., 0.};
     project::boid b3{90., 90., 0., 0.};
     std::vector<project::boid> flockvect = {b1, b2, b3};
     project::boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
-    CHECK(flock.center_of_mass_x_nearby(b1) == doctest::Approx(-5));
-    CHECK(flock.center_of_mass_y_nearby(b1) == doctest::Approx(20));
-  }*/
+    CHECK_THROWS(flock.center_of_mass_x_nearby(b1));
+    CHECK_THROWS(flock.center_of_mass_y_nearby(b1));
+    CHECK_THROWS(flock.center_of_mass_x_nearby(b2));
+    CHECK_THROWS(flock.center_of_mass_y_nearby(b2));
+    CHECK_THROWS(flock.center_of_mass_x_nearby(b3));
+    CHECK_THROWS(flock.center_of_mass_y_nearby(b3));
+  }
 
   
 }
