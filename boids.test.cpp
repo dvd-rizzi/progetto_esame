@@ -168,6 +168,20 @@ TEST_CASE("Testing the alignment rule function") {
     CHECK(flock.alignment_rule_y(b3) == doctest::Approx(7.5));
   }
 
+  SUBCASE("Three boids, all too far to align") {
+    project::boid b1{0.,0.,0.,0.};
+    project::boid b2{100.,100.,10.,10.};
+    project::boid b3{-100.,-100.,10.,10.};
+    std::vector<project::boid> flockvect = {b1,b2,b3};
+    project::boids_flock flock{3, flockvect, 25., 2., 0., 0.5, 0.};
+    CHECK_THROWS(flock.alignment_rule_x(b1));
+    CHECK_THROWS(flock.alignment_rule_y(b1));
+    CHECK_THROWS(flock.alignment_rule_x(b2));
+    CHECK_THROWS(flock.alignment_rule_y(b2));
+    CHECK_THROWS(flock.alignment_rule_x(b3));
+    CHECK_THROWS(flock.alignment_rule_y(b3));
+  }
+
 
   
 }

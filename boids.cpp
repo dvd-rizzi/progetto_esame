@@ -85,6 +85,9 @@ double boids_flock::alignment_rule_x(boid a) {
             nearby_boids += 1;
         }
     }
+    if (nearby_boids==0) {
+        throw std::runtime_error{"no boids are between lower and upper distances"};
+    };
     v_2x = (sum_vx / nearby_boids) - a.v_x;
     return a_ * v_2x;
 }
@@ -99,6 +102,9 @@ double boids_flock::alignment_rule_y(boid a) {
             nearby_boids += 1;
         }
     }
+    if (nearby_boids==0) {
+        throw std::runtime_error{"no boids are between lower and upper distances"};
+    };
     v_2y = (sum_vy / nearby_boids) - a.v_y;
     return a_ * v_2y;
 }
