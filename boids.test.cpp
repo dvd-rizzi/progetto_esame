@@ -294,3 +294,18 @@ TEST_CASE("Checking the corner behaviour") {
     CHECK(result4.v_y == expected4.v_y);
   }
 }
+
+TEST_CASE("Testing the mean velocity function") {
+  //even if it is not possible the boids will have all the same position to make the test writing easier 
+  project::boid b1{0., 0., 1., 1.};
+  project::boid b2{0., 0., 0.7, 0.9};
+  project::boid b3{0., 0., -4.5, 3.6};
+  project::boid b4{0., 0., -10., 0.};
+  project::boid b5{0., 0., -3., -2.};
+  project::boid b6{0., 0., 0.01, -1.};
+  project::boid b7{0., 0., 2., 0.};
+  project::boid b8{0., 0., 0., 2.};
+  std::vector<project::boid> flockvect = {b1, b2, b3, b4, b5, b6, b7, b8};
+  project::boids_flock flock{8, flockvect, 20., 5., 0., 0., 0.};
+  CHECK(flock.mean_velocity()==doctest::Approx(1.8132));
+}

@@ -163,11 +163,12 @@ double boids_flock::mean_velocity() {
     double sum_vx{0.};
     double sum_vy{0.};
     double v_tot{0.};
-    sum_vx = std::accumulate(flock_.begin(), flock_.end(), 0, [] (double accumulate, boid const& c) {return accumulate + c.v_x;});
-    sum_vy = std::accumulate(flock_.begin(), flock_.end(), 0, [] (double accumulate, boid const& c) {return accumulate + c.v_y;});
+    sum_vx = std::accumulate(flock_.begin(), flock_.end(), 0., [] (double accumulate, boid const& c) {return accumulate + c.v_x;});
+    sum_vy = std::accumulate(flock_.begin(), flock_.end(), 0., [] (double accumulate, boid const& c) {return accumulate + c.v_y;});
     v_tot = std::sqrt(std::pow(sum_vx, 2) + std::pow(sum_vy, 2));
     return v_tot / N_;
 }
+//implementare funzione che restutuisca l'angolo del vettore velocità complessiva
 
 double boids_flock::velocity_st_deviation(){
     return 0;
