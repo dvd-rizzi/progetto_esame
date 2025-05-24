@@ -242,7 +242,37 @@ TEST_CASE("testing the center of mass function") {
 }
 
 TEST_CASE("Checking the cohesion rule") {
-  //test
+  SUBCASE("three boids, all in range") {
+    project::boid b1{0.,0.,0.,0.};
+    project::boid b2{4.,0.,0.,0.};
+    project::boid b3{2.,2.,0.,0.};
+    std::vector<project::boid> flockvect = {b1, b2, b3};
+    project::boids_flock flock{3, flockvect, 20., 2., 0., 0., 2.};
+    CHECK(flock.cohesion_rule_x(b1) == doctest::Approx(6));
+    CHECK(flock.cohesion_rule_y(b1) == doctest::Approx(2));
+    CHECK(flock.cohesion_rule_x(b2) == doctest::Approx(-6));
+    CHECK(flock.cohesion_rule_y(b2) == doctest::Approx(2));
+    CHECK(flock.cohesion_rule_x(b3) == doctest::Approx(0));
+    CHECK(flock.cohesion_rule_y(b3) == doctest::Approx(-4));
+  }
+
+  SUBCASE("four boids in different quadrants") {
+    project::boid b1{4.,4.,0.,0.};
+    project::boid b2{-4.,4.,0.,0.};
+    project::boid b3{-4.,-4.,0.,0.};
+    project::boid b4{4.,-4.,0.,0.};
+    //vengono tutti periodici ;-;
+    std::vector<project::boid> flockvect = {b1, b2, b3, b4};
+    project::boids_flock flock{4, flockvect, 21., 2., 0., 0., 2.};
+    CHECK(flock.cohesion_rule_x(b1) == doctest::Approx(-10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule_y(b1) == doctest::Approx(-10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule_x(b2) == doctest::Approx(10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule_y(b2) == doctest::Approx(-10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule_x(b3) == doctest::Approx(10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule_y(b3) == doctest::Approx(10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule_x(b4) == doctest::Approx(-10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule_y(b4) == doctest::Approx(10.67).epsilon(0.01));
+  }
 }
 
 TEST_CASE("Checking the corner behaviour") {
