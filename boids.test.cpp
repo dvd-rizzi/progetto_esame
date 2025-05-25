@@ -9,25 +9,25 @@ TEST_CASE("Checking the lower distance function") {
     project::boid b2{10., 10., 1., 1.};
     std::vector<project::boid> flockvect = {b1, b2};
     project::boids_flock flock{2, flockvect, 50., 5., 0., 0., 0.};
-    CHECK(flock.lower_distance(b1, b2) == true);
+    CHECK(flock.get_lower_distance(b1, b2) == true);
   }
   SUBCASE("second boid very close to lower distance") {
     project::boid b2{5., 1., 1., 1.};
     std::vector<project::boid> flockvect = {b1, b2};
     project::boids_flock flock{2, flockvect, 50., 5., 0., 0., 0.};
-    CHECK(flock.lower_distance(b1, b2) == true);
+    CHECK(flock.get_lower_distance(b1, b2) == true);
   }
   SUBCASE("second boid on lower distance") {
     project::boid b2{5., 0., 1., 1.};
     std::vector<project::boid> flockvect = {b1, b2};
     project::boids_flock flock{2, flockvect, 50., 5., 0., 0., 0.};
-    CHECK(flock.lower_distance(b1, b2) == false);
+    CHECK(flock.get_lower_distance(b1, b2) == false);
   }
   SUBCASE("second boid closer than lower distance") {
     project::boid b2{1., 1., 1., 1.};
     std::vector<project::boid> flockvect = {b1, b2};
     project::boids_flock flock{2, flockvect, 50., 5., 0., 0., 0.};
-    CHECK(flock.lower_distance(b1, b2) == false);
+    CHECK(flock.get_lower_distance(b1, b2) == false);
   }
 }
 
@@ -37,25 +37,25 @@ TEST_CASE("Checking the upper distance function") {
     project::boid b2{20., 20., 1., 1.};
     std::vector<project::boid> flockvect = {b1, b2};
     project::boids_flock flock{2, flockvect, 10., 2., 0., 0., 0.};
-    CHECK(flock.upper_distance(b1, b2) == false);
+    CHECK(flock.get_upper_distance(b1, b2) == false);
   }
   SUBCASE("second boid just farther than upper distance") {
     project::boid b2{10., 1., 1., 1.};
     std::vector<project::boid> flockvect = {b1, b2};
     project::boids_flock flock{2, flockvect, 10., 2., 0., 0., 0.};
-    CHECK(flock.upper_distance(b1, b2) == false);
+    CHECK(flock.get_upper_distance(b1, b2) == false);
   }
   SUBCASE("second boid exactly on upper distance") {
     project::boid b2{0., 10., 1., 1.};
     std::vector<project::boid> flockvect = {b1, b2};
     project::boids_flock flock{2, flockvect, 10., 2., 0., 0., 0.};
-    CHECK(flock.upper_distance(b1, b2) == false);
+    CHECK(flock.get_upper_distance(b1, b2) == false);
   }
   SUBCASE("second boid closer than upper distance") {
     project::boid b2{4., 3., 1., 1.};
     std::vector<project::boid> flockvect = {b1, b2};
     project::boids_flock flock{2, flockvect, 10., 2., 0., 0., 0.};
-    CHECK(flock.upper_distance(b1, b2) == true);
+    CHECK(flock.get_upper_distance(b1, b2) == true);
   }
 }
 
@@ -194,8 +194,8 @@ TEST_CASE("testing the center of mass function") {
     project::boid b3{-3., 6., 0., 0.};
     std::vector<project::boid> flockvect = {b1, b2, b3};
     project::boids_flock flock{3, flockvect, 20., 0.5, 0., 0., 0.};
-    CHECK(flock.center_of_mass_x_nearby(b1) == doctest::Approx(0.500).epsilon(0.01));
-    CHECK(flock.center_of_mass_y_nearby(b1) == doctest::Approx(1.500).epsilon(0.01));
+    CHECK(flock.get_center_of_mass_x_nearby(b1) == doctest::Approx(0.500).epsilon(0.01));
+    CHECK(flock.get_center_of_mass_y_nearby(b1) == doctest::Approx(1.500).epsilon(0.01));
   }
 
   SUBCASE("five boids") {
@@ -206,8 +206,8 @@ TEST_CASE("testing the center of mass function") {
     project::boid b5{2., 4., 0., 0.};
     std::vector<project::boid> flockvect = {b1, b2, b3, b4, b5};
     project::boids_flock flock{5, flockvect, 20., 5., 0., 0., 0.};
-    CHECK(flock.center_of_mass_x_nearby(b1) == doctest::Approx(-0.750));
-    CHECK(flock.center_of_mass_y_nearby(b1) == doctest::Approx(2.5));
+    CHECK(flock.get_center_of_mass_x_nearby(b1) == doctest::Approx(-0.750));
+    CHECK(flock.get_center_of_mass_y_nearby(b1) == doctest::Approx(2.5));
   }
     
   SUBCASE("three boids in the same position") {
@@ -216,12 +216,12 @@ TEST_CASE("testing the center of mass function") {
     project::boid b3{1., 1., 0., 0.};
     std::vector<project::boid> flockvect = {b1, b2, b3};
     project::boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
-    CHECK_THROWS(flock.center_of_mass_x_nearby(b1));
-    CHECK_THROWS(flock.center_of_mass_y_nearby(b1));
-    CHECK_THROWS(flock.center_of_mass_x_nearby(b2));
-    CHECK_THROWS(flock.center_of_mass_y_nearby(b2));
-    CHECK_THROWS(flock.center_of_mass_x_nearby(b3));
-    CHECK_THROWS(flock.center_of_mass_y_nearby(b3));
+    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b1));
+    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b1));
+    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b2));
+    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b2));
+    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b3));
+    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b3));
   }
   
 
@@ -231,12 +231,12 @@ TEST_CASE("testing the center of mass function") {
     project::boid b3{90., 90., 0., 0.};
     std::vector<project::boid> flockvect = {b1, b2, b3};
     project::boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
-    CHECK_THROWS(flock.center_of_mass_x_nearby(b1));
-    CHECK_THROWS(flock.center_of_mass_y_nearby(b1));
-    CHECK_THROWS(flock.center_of_mass_x_nearby(b2));
-    CHECK_THROWS(flock.center_of_mass_y_nearby(b2));
-    CHECK_THROWS(flock.center_of_mass_x_nearby(b3));
-    CHECK_THROWS(flock.center_of_mass_y_nearby(b3));
+    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b1));
+    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b1));
+    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b2));
+    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b2));
+    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b3));
+    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b3));
   }
 
   
