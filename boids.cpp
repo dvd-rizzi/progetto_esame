@@ -34,27 +34,43 @@ void boids_flock::flock_formation() {
     }
 }
 
-bool boids_flock::upper_distance(boid a, boid b) {
+bool boids_flock::upper_distance(boid const& a, boid const& b) const {
     double distance;
     distance = std::sqrt(std::pow((a.x_position - b.x_position), 2) + std::pow((a.y_position - b.y_position), 2));
     return distance < d_;
 }
 
-bool boids_flock::lower_distance(boid a, boid b) {
+bool boids_flock::lower_distance(boid const& a, boid const& b) const {
     double distance{0.};
     distance = std::sqrt(std::pow((a.x_position - b.x_position), 2) + std::pow((a.y_position - b.y_position), 2));
     return distance > ds_;
 }
 
-double boids_flock::reciprocal_distance_x(boid a, boid b) {
+bool boids_flock::get_upper_distance(boid const& a, boid const& b) const {
+    return boids_flock::upper_distance(a, b);
+};
+
+bool boids_flock::get_lower_distance(boid const& a, boid const& b) const {
+    return boids_flock::lower_distance(a, b);
+};
+
+double boids_flock::reciprocal_distance_x(boid const& a, boid const& b) const {
     return b.x_position - a.x_position;
 }
 
-double boids_flock::reciprocal_distance_y(boid a, boid b) {
+double boids_flock::reciprocal_distance_y(boid const& a, boid const& b) const {
     return b.y_position - a.y_position;
 }
 
-double boids_flock::separation_rule_x(boid a) {
+double boids_flock::get_reciprocal_distance_x(boid const& a, boid const& b) const {
+    return boids_flock::reciprocal_distance_x(a,b);
+};
+
+double boids_flock::get_reciprocal_distance_y(boid const& a, boid const& b) const {
+    return boids_flock::reciprocal_distance_y(a,b);
+};
+
+double boids_flock::separation_rule_x(boid const& a) const {
     double v_1x{0.};
     for (auto const& b : flock_) {
         if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
@@ -64,7 +80,7 @@ double boids_flock::separation_rule_x(boid a) {
     return -s_ * v_1x;
 }
 
-double boids_flock::separation_rule_y(boid a) {
+double boids_flock::separation_rule_y(boid const& a) const {
     double v_1y{0.};
     for (auto const& b : flock_) {
         if (a != b && lower_distance(a, b) == false && upper_distance(a, b) == true) {
@@ -75,7 +91,7 @@ double boids_flock::separation_rule_y(boid a) {
 }
 
 
-double boids_flock::alignment_rule_x(boid a) {
+double boids_flock::alignment_rule_x(boid const& a) const {
     double v_2x{0.};
     double sum_vx{0.};
     int nearby_boids{0};
@@ -92,7 +108,7 @@ double boids_flock::alignment_rule_x(boid a) {
     return a_ * v_2x;
 }
 
-double boids_flock::alignment_rule_y(boid a) {
+double boids_flock::alignment_rule_y(boid const& a) const {
     double v_2y{0.};
     double sum_vy{0.};
     int nearby_boids{0};
@@ -109,7 +125,7 @@ double boids_flock::alignment_rule_y(boid a) {
     return a_ * v_2y;
 }
 
-double boids_flock::center_of_mass_x_nearby(boid a) {
+double boids_flock::center_of_mass_x_nearby(boid const& a) const {
     double sum{0.};
     int nearby_boids{0};
     for (auto const& b : flock_) {
@@ -125,7 +141,7 @@ double boids_flock::center_of_mass_x_nearby(boid a) {
 }
 
 
-double boids_flock::center_of_mass_y_nearby(boid a) {
+double boids_flock::center_of_mass_y_nearby(boid const& a) const {
     double sum{0.};
     int nearby_boids{0};
     for (auto const& b : flock_) {
@@ -140,11 +156,19 @@ double boids_flock::center_of_mass_y_nearby(boid a) {
     return sum/nearby_boids;
 }
 
-double boids_flock::cohesion_rule_x(boid a) {
+double boids_flock::get_center_of_mass_x_nearby(boid const& a) const {
+    return boids_flock::center_of_mass_x_nearby(a);
+};
+
+double boids_flock::get_center_of_mass_y_nearby(boid const& a) const {
+    return boids_flock::center_of_mass_y_nearby(a);
+};
+
+double boids_flock::cohesion_rule_x(boid const& a) const {
     return c_ * (center_of_mass_x_nearby(a) - a.x_position);
 }
 
-double boids_flock::cohesion_rule_y(boid a) {
+double boids_flock::cohesion_rule_y(boid const& a) const {
     return c_ * (center_of_mass_y_nearby(a) - a.y_position);
 }
 

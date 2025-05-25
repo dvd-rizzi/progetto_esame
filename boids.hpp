@@ -27,6 +27,18 @@ class boids_flock {
   double a_;
   double c_;
 
+  bool upper_distance(boid const& a, boid const& b) const;
+
+  bool lower_distance(boid const& a, boid const& b) const;
+
+  double reciprocal_distance_x(boid const& a, boid const& b) const;
+
+  double reciprocal_distance_y(boid const& a, boid const& b) const;
+
+  double center_of_mass_x_nearby(boid const& a) const;
+
+  double center_of_mass_y_nearby(boid const& a) const;
+
  public:
   boids_flock(int N, std::vector<boid> flock, double d, double ds, double s, double a, double c) : N_{N}, flock_{flock}, d_{d}, ds_{ds}, s_{s}, a_{a}, c_{c} {}
 
@@ -36,29 +48,29 @@ class boids_flock {
 
   void flock_formation();
 
-  bool upper_distance(boid a, boid b);
+  bool get_upper_distance(boid const& a, boid const& b) const;
 
-  bool lower_distance(boid a, boid b);
+  bool get_lower_distance(boid const& a, boid const& b) const;
 
-  double reciprocal_distance_x(boid a, boid b);
+  double get_reciprocal_distance_x(boid const& a, boid const& b) const;
 
-  double reciprocal_distance_y(boid a, boid b);
+  double get_reciprocal_distance_y(boid const& a, boid const& b) const;
 
-  double separation_rule_x(boid a);
+  double separation_rule_x(boid const& a) const;
 
-  double separation_rule_y(boid a);
+  double separation_rule_y(boid const& a) const;
 
-  double alignment_rule_x(boid a);
+  double alignment_rule_x(boid const& a) const;
 
-  double alignment_rule_y(boid a);
+  double alignment_rule_y(boid const& a) const;
 
-  double center_of_mass_x_nearby(boid a);
+  double get_center_of_mass_x_nearby(boid const& a) const;
 
-  double center_of_mass_y_nearby(boid a);
+  double get_center_of_mass_y_nearby(boid const& a) const;
 
-  double cohesion_rule_x(boid a);
+  double cohesion_rule_x(boid const& a) const;
 
-  double cohesion_rule_y(boid a);
+  double cohesion_rule_y(boid const& a) const;
 
   void corner_behaviour();
 
