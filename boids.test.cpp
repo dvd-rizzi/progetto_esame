@@ -225,6 +225,7 @@ TEST_CASE("testing the center of mass function") {
     CHECK_THROWS(flock.get_center_of_mass_x_nearby(b3));
     CHECK_THROWS(flock.get_center_of_mass_y_nearby(b3));
   }
+  
 
   SUBCASE("three, widely apart boids") {
     project::boid b1{-75., -80., 0., 0.};
