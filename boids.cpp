@@ -159,22 +159,41 @@ void boids_flock::corner_behaviour() {
     }
 }
 
-double boids_flock::mean_velocity() {
+mean_velocity_vector boids_flock::mean_velocity() {
     double sum_vx{0.};
     double sum_vy{0.};
     double v_tot{0.};
+    double theta{0.};
     sum_vx = std::accumulate(flock_.begin(), flock_.end(), 0., [] (double accumulate, boid const& c) {return accumulate + c.v_x;});
     sum_vy = std::accumulate(flock_.begin(), flock_.end(), 0., [] (double accumulate, boid const& c) {return accumulate + c.v_y;});
     v_tot = std::sqrt(std::pow(sum_vx, 2) + std::pow(sum_vy, 2));
-    return v_tot / N_;
+    theta = std::atan(sum_vy / sum_vx);
+    return {v_tot / N_, theta}; //fare in modo di restituire un angolo compreso tra 0 e 2pi
 }
-//implementare funzione che restutuisca l'angolo del vettore velocità complessiva
+
 
 double boids_flock::velocity_st_deviation(){
-    return 0;
+    double v_module{0.};
+    double sum{0.};
+    for(auto const& b : flock_) {
+        v_module = std::sqrt(b.v_x*b.v_x + b.v_y*b.v_y);
+        sum += std::pow((v_module - mean_velocity().mean_velocity), 2);
+    }
+    return std::sqrt(sum / (N_ -1));
 }
 
 double boids_flock::mean_distance(){
-    return 0;
+    double sum_distance_modules{0.};
+    int number_distances = ((N_*(N_-1)));
+    for(auto const& a : flock_) {
+        for(auto const& b : flock_) {
+            if (a != b) {
+                sum_distance_modules += std::sqrt(std::pow(reciprocal_distance_x(a, b), 2) + std::pow(reciprocal_distance_y(a, b), 2));
+            }
+        }
+    }
+    return sum_distance_modules / number_distances;
 }
+
+
 }

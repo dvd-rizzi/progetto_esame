@@ -337,5 +337,32 @@ TEST_CASE("Testing the mean velocity function") {
   project::boid b8{0., 0., 0., 2.};
   std::vector<project::boid> flockvect = {b1, b2, b3, b4, b5, b6, b7, b8};
   project::boids_flock flock{8, flockvect, 20., 5., 0., 0., 0.};
-  CHECK(flock.mean_velocity()==doctest::Approx(1.8132));
+  CHECK(flock.mean_velocity().mean_velocity==doctest::Approx(1.8132));
+  CHECK(flock.mean_velocity().theta == doctest::Approx(-0.315428));
+}
+
+TEST_CASE("Test the velocity_st_deviation function") {
+
+}
+
+TEST_CASE("Testing the mean_distance function") {
+  SUBCASE("four boids"){
+    project::boid b1{2., 2., 0., 0.};
+    project::boid b2{2., -2., 0., 0.};
+    project::boid b3{-2., -2., 0., 0.};
+    project::boid b4{-2., 2., 0., 0.};
+    std::vector<project::boid> flockvect = {b1, b2, b3, b4};
+    project::boids_flock flock{4, flockvect, 20., 5., 0., 0., 0.};
+    CHECK(flock.mean_distance() == doctest::Approx(4.55228));
+  }
+
+  SUBCASE("three boids") {
+    project::boid b1{20., 11., 0., 0.};
+    project::boid b2{-11., -4., 0., 0.};
+    project::boid b3{7., -8., 0., 0.};
+    std::vector<project::boid> flockvect = {b1, b2, b3};
+    project::boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
+    CHECK(flock.mean_distance() == doctest::Approx(25.2997));
+  }
+
 }

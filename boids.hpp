@@ -11,6 +11,11 @@ struct boid {
   double v_y;
 };
 
+struct mean_velocity_vector {
+  double mean_velocity;
+  double theta;
+};
+
 bool operator!=(boid a, boid b);
 
 class boids_flock {
@@ -57,7 +62,7 @@ class boids_flock {
 
   void corner_behaviour();
 
-  double mean_velocity();
+  mean_velocity_vector mean_velocity();
 
   double velocity_st_deviation();
 
