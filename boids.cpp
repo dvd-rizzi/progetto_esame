@@ -191,8 +191,12 @@ mean_velocity_vector boids_flock::mean_velocity() {
     sum_vx = std::accumulate(flock_.begin(), flock_.end(), 0., [] (double accumulate, boid const& c) {return accumulate + c.v_x;});
     sum_vy = std::accumulate(flock_.begin(), flock_.end(), 0., [] (double accumulate, boid const& c) {return accumulate + c.v_y;});
     v_tot = std::sqrt(std::pow(sum_vx, 2) + std::pow(sum_vy, 2));
-    theta = std::atan(sum_vy / sum_vx);
-    return {v_tot / N_, theta}; //fare in modo di restituire un angolo compreso tra 0 e 2pi
+    theta = std::atan2(sum_vy, sum_vx);
+    double theta_deg = theta * 180.0 / M_PI;
+    if (theta_deg < 0) {
+        theta_deg += 360.0;
+    }
+    return {v_tot / N_, theta_deg}; 
 }
 
 

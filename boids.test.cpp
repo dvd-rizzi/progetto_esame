@@ -339,7 +339,7 @@ TEST_CASE("Testing the mean velocity function") {
   std::vector<project::boid> flockvect = {b1, b2, b3, b4, b5, b6, b7, b8};
   project::boids_flock flock{8, flockvect, 20., 5., 0., 0., 0.};
   CHECK(flock.mean_velocity().mean_velocity==doctest::Approx(1.8132));
-  //CHECK(flock.mean_velocity().theta == doctest::Approx(-0.315428));
+  CHECK(flock.mean_velocity().theta == doctest::Approx(161.9272826));
 }
 
 TEST_CASE("Test the velocity_st_deviation function") {

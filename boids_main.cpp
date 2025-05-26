@@ -1,5 +1,5 @@
+#include "boids.hpp"
 #include <chrono>
-#include <boids.hpp>
 #include <iostream>
 #include <cassert>
 
@@ -20,7 +20,7 @@ int main() {
     std::cout << "inserisci la distanza minima tra i boid: ";
     std::cin >> ds_;
     std::cout << "\n";
-    assert(0<ds_<d_);
+    assert(0 < ds_ && ds_< d_);
 
     double s_;
     std::cout << "inserisci il fattore di separazione: ";
@@ -32,7 +32,7 @@ int main() {
     std::cout << "inserisci il fattore di allineamento (<1): ";
     std::cin >> a_;
     std::cout << "\n";
-    assert(0<a_<1);
+    assert(0 < a_ && a_ < 1);
 
     double c_;
     std::cout << "inserisci il fattore di coesione: ";
