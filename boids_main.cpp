@@ -1,4 +1,5 @@
 #include "boids.hpp"
+#include "boids_sfml.hpp"
 #include <chrono>
 #include <iostream>
 #include <cassert>
