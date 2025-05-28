@@ -3,6 +3,7 @@
 #include <cmath>
 #include <algorithm>
 #include <stdexcept>
+#include <iostream>
 
 namespace project {
 
@@ -221,6 +222,26 @@ double boids_flock::mean_distance(){
         }
     }
     return sum_distance_modules / number_distances;
+}
+
+void boids_flock::external_effects(boid* a) {
+    double vx{0.};
+    double vy{0.};
+    vx+=(boids_flock::alignment_rule_x(*a)+boids_flock::cohesion_rule_x(*a)+boids_flock::separation_rule_x(*a));
+    vy+=(boids_flock::alignment_rule_y(*a)+boids_flock::cohesion_rule_y(*a)+boids_flock::separation_rule_y(*a));
+    a->v_x+=vx;
+    a->v_y+=vy;
+}
+
+void boids_flock::velocities_update() {
+    for (int i{0}; i<N_; i++) {
+        std::cout << "Prima della funzione: v_x=" << flock_[i].v_x << ", v_y=" << flock_[i].v_y << "\n";
+        boid* a{&flock_[i]};
+        boids_flock::external_effects(a);
+    }
+    for (int i{0}; i<N_; i++) {
+        std::cout << "Alla fine della funzione: v_x=" << flock_[i].v_x << ", v_y=" << flock_[i].v_y << "\n";
+    }
 }
 
 

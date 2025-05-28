@@ -43,8 +43,5 @@ int main() {
     std::vector<project::boid> flock_vector;
     project::boids_flock flock(N_,flock_vector,d_,ds_,s_,a_,c_);
     
-    for (int i{0}; i<N_; ++i) {
-        project::boid b=flock.boid_initialize();
-        flock_vector.push_back(b);
-    }
+    flock.flock_formation();
 }

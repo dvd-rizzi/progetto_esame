@@ -9,6 +9,12 @@ struct boid {
   double y_position;
   double v_x;
   double v_y;
+
+  /*
+  //sto solo droppando qua l'idea attuale del metodo
+
+  sai che non sono sicuro che vada bene mettere funzioni in una struct
+  */
 };
 
 struct mean_velocity_vector {
@@ -79,6 +85,10 @@ class boids_flock {
   double velocity_st_deviation();
 
   double mean_distance();
+
+  void external_effects(boid* a);
+
+  void velocities_update();
 };
 
 }  // namespace project
