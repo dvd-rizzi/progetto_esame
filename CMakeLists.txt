@@ -37,9 +37,9 @@ string(APPEND CMAKE_EXE_LINKER_FLAGS_DEBUG " -fsanitize=address,undefined")
 
 # dichiara un eseguibile chiamato "progetto", prodotto a partire dai file sorgente indicati
 # sostituire "progetto" con il nome del proprio eseguibile e i file sorgente con i propri (con nomi sensati!)
-add_executable(boids boids.cpp boids.hpp boids_main.cpp)
+add_executable(boids boids.cpp boids.hpp boids_main.cpp boids_sfml.cpp boids_sfml.hpp)
 # nel caso si usi SFML. analogamente per eventuali altre librerie
-#target_link_libraries(progetto PRIVATE sfml-graphics) ///////////
+target_link_libraries(boids PRIVATE sfml-graphics sfml-window sfml-system) 
 
 # aggiungere eventuali altri eseguibili
 
