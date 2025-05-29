@@ -89,6 +89,8 @@ class boids_flock {
   void external_effects(boid* a);
 
   void velocities_update();
+
+  void update_flock_loop();
 };
 
 }  // namespace project

@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <stdexcept>
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 namespace project {
 
@@ -241,6 +243,17 @@ void boids_flock::velocities_update() {
     }
     for (int i{0}; i<N_; i++) {
         std::cout << "Alla fine della funzione: v_x=" << flock_[i].v_x << ", v_y=" << flock_[i].v_y << "\n";
+    }
+}
+
+void update_flock_loop() {
+    std::chrono::milliseconds tick(15);
+    auto next_tick = std::chrono::steady_clock::now();
+    while (true) {
+        //chiamata funzioni
+        next_tick += tick;
+        std::this_thread::sleep_until(next_tick);
+
     }
 }
 
