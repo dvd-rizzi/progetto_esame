@@ -3,7 +3,7 @@
 
 namespace boids_display {
 
-    void initialize();
+    void initialize(project::boids_flock& flock_ref);
 
     void run();
 }
