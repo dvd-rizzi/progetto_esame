@@ -371,21 +371,20 @@ TEST_CASE("Testing the velocities update function (molto sperimentale)") {
   SUBCASE("two boids, very basic scenario"){
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{3., 0., 3., 0.};
-    std::vector<project::boid> flockvect = {b1, b2};
+    std::vector<project::boid> flockvect = {};
     project::boids_flock flock{2, flockvect, 20., 2., 1., 0.5, 0.5};
     //flock.velocities_update();
-    for (int i{0}; i<2; i++) {
-      project::boid* a{&flockvect[i]};
-      flock.external_effects(a);
-    }
-    CHECK(b1.v_x==doctest::Approx(3));
-    CHECK(b2.v_x==doctest::Approx(1.5));
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.velocities_update();
+    CHECK(flock.get_flock()[0].v_x==doctest::Approx(3));
+    CHECK(flock.get_flock()[1].v_x==doctest::Approx(1.5));
   }
 
   /*
   La funzione sembra andare nel modo giusto, ma è come se le modifiche agli oggetti rimanessero
-  "bloccate" nel ciclo for.
-  ho aggiunto due cout per vedere prima e dopo la funzione 
+  "bloccate" nella funzione velocities update.
+  ho aggiunto dei cout per vedere prima e dopo la funzione. Finora non ho avuto grandi risultati... 
   */
 
 }

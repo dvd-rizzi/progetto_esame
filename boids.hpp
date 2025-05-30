@@ -54,6 +54,8 @@ class boids_flock {
 
   void flock_formation();
 
+  void addBoid(const boid& a);
+
   bool get_upper_distance(boid const& a, boid const& b) const;
 
   bool get_lower_distance(boid const& a, boid const& b) const;
@@ -86,7 +88,7 @@ class boids_flock {
 
   double mean_distance();
 
-  void external_effects(boid* a);
+  void external_effects(boid& a);
 
   void velocities_update();
 

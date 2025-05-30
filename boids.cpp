@@ -30,6 +30,10 @@ boid boids_flock::boid_initialize() {
     return {x_position(eng), y_position(eng), v * std::cos(theta), v* std::sin(theta)};
 }
 
+void boids_flock::addBoid(const boid& a) {
+        flock_.push_back(a);
+    }
+
 void boids_flock::flock_formation() {
     flock_.clear();
     for(int i{0}; i <= N_; ++i) {
@@ -226,23 +230,16 @@ double boids_flock::mean_distance(){
     return sum_distance_modules / number_distances;
 }
 
-void boids_flock::external_effects(boid* a) {
-    double vx{0.};
-    double vy{0.};
-    vx+=(boids_flock::alignment_rule_x(*a)+boids_flock::cohesion_rule_x(*a)+boids_flock::separation_rule_x(*a));
-    vy+=(boids_flock::alignment_rule_y(*a)+boids_flock::cohesion_rule_y(*a)+boids_flock::separation_rule_y(*a));
-    a->v_x+=vx;
-    a->v_y+=vy;
+void boids_flock::external_effects(boid& a) {
+    std::cout << "Prima: v_x= " << a.v_x << ", vy= " << a.v_y << '\n';
+    a.v_x+=(boids_flock::alignment_rule_x(a)+boids_flock::cohesion_rule_x(a)+boids_flock::separation_rule_x(a));
+    a.v_y+=(boids_flock::alignment_rule_y(a)+boids_flock::cohesion_rule_y(a)+boids_flock::separation_rule_y(a));
+    std::cout << "Dopo: v_x= " << a.v_x << ", vy= " << a.v_y << '\n';
 }
 
 void boids_flock::velocities_update() {
-    for (int i{0}; i<N_; i++) {
-        std::cout << "Prima della funzione: v_x=" << flock_[i].v_x << ", v_y=" << flock_[i].v_y << "\n";
-        boid* a{&flock_[i]};
+    for (auto& a : flock_) {
         boids_flock::external_effects(a);
-    }
-    for (int i{0}; i<N_; i++) {
-        std::cout << "Alla fine della funzione: v_x=" << flock_[i].v_x << ", v_y=" << flock_[i].v_y << "\n";
     }
 }
 
