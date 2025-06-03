@@ -92,7 +92,10 @@ class boids_flock {
 
   void velocities_update();
 
-  void update_flock_loop();
+  void position_update(boid& a);
+
+  void position_update_loop();
+
 };
 
 }  // namespace project

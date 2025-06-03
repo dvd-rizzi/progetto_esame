@@ -14,7 +14,7 @@ std::default_random_engine eng(r());
 std::uniform_real_distribution<double> angle(0.0, 2.0 * M_PI);
 std::uniform_real_distribution<double> x_position(-20., 20.);
 std::uniform_real_distribution<double> y_position(-20., 20.);
-std::normal_distribution<double> speed(1., 0.1);
+std::normal_distribution<double> speed(0.001, 0.0001);
 
 const std::vector<boid>& boids_flock::get_flock() const {
     return flock_;
@@ -231,10 +231,10 @@ double boids_flock::mean_distance(){
 }
 
 void boids_flock::external_effects(boid& a) {
-    std::cout << "Prima: v_x= " << a.v_x << ", vy= " << a.v_y << '\n';
+    //std::cout << "Prima: v_x= " << a.v_x << ", vy= " << a.v_y << '\n';
     a.v_x+=(boids_flock::alignment_rule_x(a)+boids_flock::cohesion_rule_x(a)+boids_flock::separation_rule_x(a));
     a.v_y+=(boids_flock::alignment_rule_y(a)+boids_flock::cohesion_rule_y(a)+boids_flock::separation_rule_y(a));
-    std::cout << "Dopo: v_x= " << a.v_x << ", vy= " << a.v_y << '\n';
+    //std::cout << "Dopo: v_x= " << a.v_x << ", vy= " << a.v_y << '\n';
 }
 
 void boids_flock::velocities_update() {
@@ -243,16 +243,17 @@ void boids_flock::velocities_update() {
     }
 }
 
-void update_flock_loop() {
-    std::chrono::milliseconds tick(15);
-    auto next_tick = std::chrono::steady_clock::now();
-    while (true) {
-        //chiamata funzioni
-        next_tick += tick;
-        std::this_thread::sleep_until(next_tick);
 
-    }
+void boids_flock::position_update(boid& a) {
+    const double dt = 0.015;
+    a.x_position += a.v_x * dt;
+    a.y_position += a.v_y * dt;
 }
 
+void boids_flock::position_update_loop() {
+    for (auto& a : flock_) {
+        boids_flock::position_update(a);
+    }
+}
 
 }
