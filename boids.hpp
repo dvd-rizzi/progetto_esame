@@ -9,12 +9,6 @@ struct boid {
   double y_position;
   double v_x;
   double v_y;
-
-  /*
-  //sto solo droppando qua l'idea attuale del metodo
-
-  sai che non sono sicuro che vada bene mettere funzioni in una struct
-  */
 };
 
 struct mean_velocity_vector {
@@ -25,8 +19,8 @@ struct mean_velocity_vector {
 bool operator!=(boid a, boid b);
 
 class boids_flock {
-  int N_;
   std::vector<boid> flock_;
+  int N_;
   double d_;
   double ds_;
   double s_;
@@ -46,13 +40,15 @@ class boids_flock {
   double center_of_mass_y_nearby(boid const& a) const;
 
  public:
-  boids_flock(int N, std::vector<boid> flock, double d, double ds, double s, double a, double c) : N_{N}, flock_{flock}, d_{d}, ds_{ds}, s_{s}, a_{a}, c_{c} {}
+  boids_flock(int N, double d, double ds, double s, double a, double c) : N_{N}, d_{d}, ds_{ds}, s_{s}, a_{a}, c_{c} {}
 
   const std::vector<boid>& get_flock() const;
 
   boid boid_initialize();
 
   void flock_formation();
+
+  void flock_completion();
 
   void addBoid(const boid& a);
 

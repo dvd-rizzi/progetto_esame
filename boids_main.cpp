@@ -36,8 +36,7 @@ int main() {
     std::cin >> c_;
     assert(c_>0);
 
-    std::vector<project::boid> flock_vector;
-    project::boids_flock flock(N_,flock_vector,d_,ds_,s_,a_,c_);
+    project::boids_flock flock(N_,d_,ds_,s_,a_,c_);
     
     std::string command{};
 

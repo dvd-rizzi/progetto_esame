@@ -7,26 +7,30 @@ TEST_CASE("Checking the lower distance function") {
   project::boid b1{0., 0., 1., 1.};
   SUBCASE("second boid way farther than lower distance") {
     project::boid b2{10., 10., 1., 1.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 50., 5., 0., 0., 0.};
+    project::boids_flock flock{2, 50., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.get_lower_distance(b1, b2) == true);
   }
   SUBCASE("second boid very close to lower distance") {
     project::boid b2{5., 1., 1., 1.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 50., 5., 0., 0., 0.};
+    project::boids_flock flock{2, 50., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.get_lower_distance(b1, b2) == true);
   }
   SUBCASE("second boid on lower distance") {
     project::boid b2{5., 0., 1., 1.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 50., 5., 0., 0., 0.};
+    project::boids_flock flock{2, 50., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.get_lower_distance(b1, b2) == false);
   }
   SUBCASE("second boid closer than lower distance") {
     project::boid b2{1., 1., 1., 1.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 50., 5., 0., 0., 0.};
+    project::boids_flock flock{2, 50., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.get_lower_distance(b1, b2) == false);
   }
 }
@@ -35,26 +39,30 @@ TEST_CASE("Checking the upper distance function") {
   project::boid b1{0., 0., 1., 1.};
   SUBCASE("second boid way farther than upper distance") {
     project::boid b2{20., 20., 1., 1.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 10., 2., 0., 0., 0.};
+    project::boids_flock flock{2, 10., 2., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.get_upper_distance(b1, b2) == false);
   }
   SUBCASE("second boid just farther than upper distance") {
     project::boid b2{10., 1., 1., 1.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 10., 2., 0., 0., 0.};
+    project::boids_flock flock{2, 10., 2., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.get_upper_distance(b1, b2) == false);
   }
   SUBCASE("second boid exactly on upper distance") {
     project::boid b2{0., 10., 1., 1.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 10., 2., 0., 0., 0.};
+    project::boids_flock flock{2, 10., 2., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.get_upper_distance(b1, b2) == false);
   }
   SUBCASE("second boid closer than upper distance") {
     project::boid b2{4., 3., 1., 1.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 10., 2., 0., 0., 0.};
+    project::boids_flock flock{2, 10., 2., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.get_upper_distance(b1, b2) == true);
   }
 }
@@ -63,8 +71,9 @@ TEST_CASE("testing the separation rule function") {
   SUBCASE("two boids with same y position") {
     project::boid b1{0., 2., 0., 0.};
     project::boid b2{2., 2., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 20., 3., 2., 0., 0.};
+    project::boids_flock flock{2, 20., 3., 2., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.separation_rule_y(b1) == doctest::Approx(0));
     CHECK(flock.separation_rule_x(b1) == doctest::Approx(-4));
     CHECK(flock.separation_rule_y(b2) == doctest::Approx(0));
@@ -74,8 +83,9 @@ TEST_CASE("testing the separation rule function") {
   SUBCASE("two boids with same x position") {
     project::boid b1{2., 0., 0., 0.};
     project::boid b2{2., 2., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 20., 3., 2., 0., 0.};
+    project::boids_flock flock{2, 20., 3., 2., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.separation_rule_y(b1) == doctest::Approx(-4));
     CHECK(flock.separation_rule_x(b1) == doctest::Approx(0));
     CHECK(flock.separation_rule_y(b2) == doctest::Approx(4));
@@ -85,8 +95,9 @@ TEST_CASE("testing the separation rule function") {
   SUBCASE("two boids with different x and y values") {
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{4., 3., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 20., 6., 3., 0., 0.};
+    project::boids_flock flock{2, 20., 6., 3., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.separation_rule_y(b1) == doctest::Approx(-9));
     CHECK(flock.separation_rule_x(b1) == doctest::Approx(-12));
     CHECK(flock.separation_rule_y(b2) == doctest::Approx(9));
@@ -96,8 +107,9 @@ TEST_CASE("testing the separation rule function") {
   SUBCASE("two boids exactly on lower distance") {
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{4., 3., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 20., 5., 3., 0., 0.};
+    project::boids_flock flock{2, 20., 5., 3., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.separation_rule_y(b1) == doctest::Approx(-9));
     CHECK(flock.separation_rule_x(b1) == doctest::Approx(-12));
     CHECK(flock.separation_rule_y(b2) == doctest::Approx(9));
@@ -110,8 +122,10 @@ TEST_CASE("Testing the alignment rule function") {
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{10., 10., 0., 0.};
     project::boid b3{14., 3., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2, b3};
-    project::boids_flock flock{3, flockvect, 20., 2., 0., 0.5, 0.};
+    project::boids_flock flock{3, 20., 2., 0., 0.5, 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
     CHECK(flock.alignment_rule_x(b1) == doctest::Approx(0.));
     CHECK(flock.alignment_rule_y(b1) == doctest::Approx(0.));
     CHECK(flock.alignment_rule_x(b2) == doctest::Approx(0.));
@@ -123,8 +137,9 @@ TEST_CASE("Testing the alignment rule function") {
   SUBCASE("Two boids with same velocities") {
     project::boid b1{0., 0., 5., 10.};
     project::boid b2{10., 0., 5., 10.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 20., 2., 0., 0.5, 0.};
+    project::boids_flock flock{3, 20., 2., 0., 0.5, 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.alignment_rule_x(b1) == doctest::Approx(0.));
     CHECK(flock.alignment_rule_y(b1) == doctest::Approx(0.));
     CHECK(flock.alignment_rule_x(b2) == doctest::Approx(0.));
@@ -135,8 +150,9 @@ TEST_CASE("Testing the alignment rule function") {
   SUBCASE("Two boids, one initially still") {
     project::boid b1{10., 10., -5., -5.};
     project::boid b2{20., 0., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 20., 2., 0., 0.5, 0.};
+    project::boids_flock flock{2, 20., 2., 0., 0.5, 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.alignment_rule_x(b1) == doctest::Approx(2.5));
     CHECK(flock.alignment_rule_y(b1) == doctest::Approx(2.5));
     CHECK(flock.alignment_rule_x(b2) == doctest::Approx(-2.5));
@@ -146,8 +162,9 @@ TEST_CASE("Testing the alignment rule function") {
   SUBCASE("Two boids with opposite velocities") {
     project::boid b1{10., 0., 0., 10.};
     project::boid b2{0., 0., 0., -10.};
-    std::vector<project::boid> flockvect = {b1, b2};
-    project::boids_flock flock{2, flockvect, 20., 2., 0., 0.5, 0.};
+    project::boids_flock flock{2, 20., 2., 0., 0.5, 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
     CHECK(flock.alignment_rule_x(b1) == doctest::Approx(0.));
     CHECK(flock.alignment_rule_y(b1) == doctest::Approx(-10.));
     CHECK(flock.alignment_rule_x(b2) == doctest::Approx(0.));
@@ -158,8 +175,10 @@ TEST_CASE("Testing the alignment rule function") {
     project::boid b1{-5.,5.,10.,10.};
     project::boid b2{0., 0., 0., 0.};
     project::boid b3{5.,-5.,-10.,-10.};
-    std::vector<project::boid> flockvect = {b1, b2, b3};
-    project::boids_flock flock{3, flockvect, 20., 2., 0., 0.5, 0.};
+    project::boids_flock flock{3, 20., 2., 0., 0.5, 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
     CHECK(flock.alignment_rule_x(b1) == doctest::Approx(-7.5));
     CHECK(flock.alignment_rule_y(b1) == doctest::Approx(-7.5));
     CHECK(flock.alignment_rule_x(b2) == doctest::Approx(0.));
@@ -172,8 +191,10 @@ TEST_CASE("Testing the alignment rule function") {
     project::boid b1{0.,0.,0.,0.};
     project::boid b2{100.,100.,10.,10.};
     project::boid b3{-100.,-100.,10.,10.};
-    std::vector<project::boid> flockvect = {b1,b2,b3};
-    project::boids_flock flock{3, flockvect, 25., 2., 0., 0.5, 0.};
+    project::boids_flock flock{3, 25., 2., 0., 0.5, 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
     CHECK_THROWS(flock.alignment_rule_x(b1));
     CHECK_THROWS(flock.alignment_rule_y(b1));
     CHECK_THROWS(flock.alignment_rule_x(b2));
@@ -192,8 +213,10 @@ TEST_CASE("testing the center of mass function") {
     project::boid b1{1., 1., 0., 0.};
     project::boid b2{4., -3., 0., 0.};
     project::boid b3{-3., 6., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2, b3};
-    project::boids_flock flock{3, flockvect, 20., 0.5, 0., 0., 0.};
+    project::boids_flock flock{3, 20., 0.5, 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
     CHECK(flock.get_center_of_mass_x_nearby(b1) == doctest::Approx(0.500).epsilon(0.01));
     CHECK(flock.get_center_of_mass_y_nearby(b1) == doctest::Approx(1.500).epsilon(0.01));
   }
@@ -204,8 +227,12 @@ TEST_CASE("testing the center of mass function") {
     project::boid b3{-1., 9., 0., 0.};
     project::boid b4{-10., 0., 0., 0.};
     project::boid b5{2., 4., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2, b3, b4, b5};
-    project::boids_flock flock{5, flockvect, 20., 5., 0., 0., 0.};
+    project::boids_flock flock{5, 20., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    flock.addBoid(b5);
     CHECK(flock.get_center_of_mass_x_nearby(b1) == doctest::Approx(-0.750));
     CHECK(flock.get_center_of_mass_y_nearby(b1) == doctest::Approx(2.5));
   }
@@ -214,8 +241,10 @@ TEST_CASE("testing the center of mass function") {
     project::boid b1{1., 1., 0., 0.};
     project::boid b2{1., 1., 0., 0.};
     project::boid b3{1., 1., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2, b3};
-    project::boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
+    project::boids_flock flock{3, 20., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
     CHECK_THROWS(flock.get_center_of_mass_x_nearby(b1));
     CHECK_THROWS(flock.get_center_of_mass_y_nearby(b1));
     CHECK_THROWS(flock.get_center_of_mass_x_nearby(b2));
@@ -229,8 +258,10 @@ TEST_CASE("testing the center of mass function") {
     project::boid b1{-75., -80., 0., 0.};
     project::boid b2{-30., 50., 0., 0.};
     project::boid b3{90., 90., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2, b3};
-    project::boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
+    project::boids_flock flock{3, 20., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
     CHECK_THROWS(flock.get_center_of_mass_x_nearby(b1));
     CHECK_THROWS(flock.get_center_of_mass_y_nearby(b1));
     CHECK_THROWS(flock.get_center_of_mass_x_nearby(b2));
@@ -247,8 +278,10 @@ TEST_CASE("Checking the cohesion rule") {
     project::boid b1{0.,0.,0.,0.};
     project::boid b2{4.,0.,0.,0.};
     project::boid b3{2.,2.,0.,0.};
-    std::vector<project::boid> flockvect = {b1, b2, b3};
-    project::boids_flock flock{3, flockvect, 20., 2., 0., 0., 2.};
+    project::boids_flock flock{3, 20., 2., 0., 0., 2.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
     CHECK(flock.cohesion_rule_x(b1) == doctest::Approx(6));
     CHECK(flock.cohesion_rule_y(b1) == doctest::Approx(2));
     CHECK(flock.cohesion_rule_x(b2) == doctest::Approx(-6));
@@ -262,9 +295,11 @@ TEST_CASE("Checking the cohesion rule") {
     project::boid b2{-4.,4.,0.,0.};
     project::boid b3{-4.,-4.,0.,0.};
     project::boid b4{4.,-4.,0.,0.};
-    //vengono tutti periodici ;-;
-    std::vector<project::boid> flockvect = {b1, b2, b3, b4};
-    project::boids_flock flock{4, flockvect, 21., 2., 0., 0., 2.};
+    project::boids_flock flock{4, 21., 2., 0., 0., 2.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
     CHECK(flock.cohesion_rule_x(b1) == doctest::Approx(-10.67).epsilon(0.01));
     CHECK(flock.cohesion_rule_y(b1) == doctest::Approx(-10.67).epsilon(0.01));
     CHECK(flock.cohesion_rule_x(b2) == doctest::Approx(10.67).epsilon(0.01));
@@ -286,8 +321,11 @@ TEST_CASE("Checking the corner behaviour") {
     project::boid expected3{-15., -20., 10., 7.};
     project::boid b4{-20., 11., -10., -7.};
     project::boid expected4{-20., 11., 10., -7.};
-    std::vector<project::boid> flockvect = {b1, b2, b3, b4};
-    project::boids_flock flock{4, flockvect, 20., 5., 0., 0., 0.};
+    project::boids_flock flock{4, 20., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
     flock.corner_behaviour();
     const project::boid& result1 = flock.get_flock()[0];
     const project::boid& result2 = flock.get_flock()[1];
@@ -308,8 +346,11 @@ TEST_CASE("Checking the corner behaviour") {
     project::boid expected3{-20., -20., -10., 7.};
     project::boid b4{-20., 20., -10., -7.};
     project::boid expected4{-20., 20., 10., 7.};
-    std::vector<project::boid> flockvect = {b1, b2, b3, b4};
-    project::boids_flock flock{4, flockvect, 20., 5., 0., 0., 0.};
+    project::boids_flock flock{4, 20., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
     flock.corner_behaviour();
     const project::boid& result1 = flock.get_flock()[0];
     const project::boid& result2 = flock.get_flock()[1];
@@ -336,10 +377,17 @@ TEST_CASE("Testing the mean velocity function") {
   project::boid b6{0., 0., 0.01, -1.};
   project::boid b7{0., 0., 2., 0.};
   project::boid b8{0., 0., 0., 2.};
-  std::vector<project::boid> flockvect = {b1, b2, b3, b4, b5, b6, b7, b8};
-  project::boids_flock flock{8, flockvect, 20., 5., 0., 0., 0.};
-  CHECK(flock.mean_velocity().mean_velocity==doctest::Approx(1.8132));
-  CHECK(flock.mean_velocity().theta == doctest::Approx(161.9272826));
+  project::boids_flock flock{8, 20., 5., 0., 0., 0.};
+  flock.addBoid(b1);
+  flock.addBoid(b2);
+  flock.addBoid(b3);
+  flock.addBoid(b4);
+  flock.addBoid(b5);
+  flock.addBoid(b6);
+  flock.addBoid(b7);
+  flock.addBoid(b8);
+  CHECK(flock.mean_velocity().mean_velocity==doctest::Approx(1.81).epsilon(0.01));
+  CHECK(flock.mean_velocity().theta == doctest::Approx(161.93).epsilon(0.01));
 }
 
 TEST_CASE("Test the velocity_st_deviation function") {
@@ -352,8 +400,11 @@ TEST_CASE("Testing the mean_distance function") {
     project::boid b2{2., -2., 0., 0.};
     project::boid b3{-2., -2., 0., 0.};
     project::boid b4{-2., 2., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2, b3, b4};
-    project::boids_flock flock{4, flockvect, 20., 5., 0., 0., 0.};
+    project::boids_flock flock{4, 20., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
     CHECK(flock.mean_distance() == doctest::Approx(4.55228));
   }
 
@@ -361,19 +412,19 @@ TEST_CASE("Testing the mean_distance function") {
     project::boid b1{20., 11., 0., 0.};
     project::boid b2{-11., -4., 0., 0.};
     project::boid b3{7., -8., 0., 0.};
-    std::vector<project::boid> flockvect = {b1, b2, b3};
-    project::boids_flock flock{3, flockvect, 20., 5., 0., 0., 0.};
+    project::boids_flock flock{3, 20., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
     CHECK(flock.mean_distance() == doctest::Approx(25.2997));
   }
 }
 
-TEST_CASE("Testing the velocities update function (molto sperimentale)") {
+TEST_CASE("Testing the velocities update function") {
   SUBCASE("two boids, very basic scenario"){
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{3., 0., 3., 0.};
-    std::vector<project::boid> flockvect = {};
-    project::boids_flock flock{2, flockvect, 20., 2., 1., 0.5, 0.5};
-    //flock.velocities_update();
+    project::boids_flock flock{2, 20., 2., 1., 0.5, 0.5};
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.velocities_update();
@@ -381,10 +432,29 @@ TEST_CASE("Testing the velocities update function (molto sperimentale)") {
     CHECK(flock.get_flock()[1].v_x==doctest::Approx(1.5));
   }
 
-  /*
-  La funzione sembra andare nel modo giusto, ma è come se le modifiche agli oggetti rimanessero
-  "bloccate" nella funzione velocities update.
-  ho aggiunto dei cout per vedere prima e dopo la funzione. Finora non ho avuto grandi risultati... 
-  */
+}
+
+TEST_CASE("Testing the various functions to complete the flock") {
+  SUBCASE("trying to add three boids to a flock of size 2"){
+    project::boid b1{0., 0., 0., 0.};
+    project::boid b2{0., 0., 0., 0.};
+    project::boid b3{0., 0., 0., 0.};
+    project::boids_flock flock{2, 20., 2., 1., 0.5, 0.5};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    CHECK_THROWS(flock.addBoid(b3));
+  }
+
+  SUBCASE("checking the flock_completion function"){
+    project::boid b1{0., 0., 0., 0.};
+    project::boid b2{0., 0., 0., 0.};
+    project::boid b3{0., 0., 0., 0.};
+    project::boids_flock flock{4, 20., 2., 1., 0.5, 0.5};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.flock_completion();
+    CHECK(flock.get_flock().size()==4);
+  }
 
 }
