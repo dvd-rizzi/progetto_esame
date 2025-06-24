@@ -14,7 +14,7 @@ std::default_random_engine eng(r());
 std::uniform_real_distribution<double> angle(0.0, 2.0 * M_PI);
 std::uniform_real_distribution<double> x_position(-20., 20.);
 std::uniform_real_distribution<double> y_position(-20., 20.);
-std::normal_distribution<double> speed(0.001, 0.0001);
+std::normal_distribution<double> speed(0.1, 0.01);
 
 const std::vector<boid>& boids_flock::get_flock() const {
     return flock_;
@@ -108,9 +108,9 @@ double boids_flock::alignment_rule_x(boid const& a) const {
             nearby_boids += 1;
         }
     }
-    if (nearby_boids==0) {
+    /*if (nearby_boids==0) {
         throw std::runtime_error{"no boids are between lower and upper distances"};
-    };
+    };*/
     v_2x = (sum_vx / nearby_boids) - a.v_x;
     return a_ * v_2x;
 }
@@ -125,9 +125,9 @@ double boids_flock::alignment_rule_y(boid const& a) const {
             nearby_boids += 1;
         }
     }
-    if (nearby_boids==0) {
+    /*if (nearby_boids==0) {
         throw std::runtime_error{"no boids are between lower and upper distances"};
-    };
+    };*/
     v_2y = (sum_vy / nearby_boids) - a.v_y;
     return a_ * v_2y;
 }
@@ -141,9 +141,9 @@ double boids_flock::center_of_mass_x_nearby(boid const& a) const {
             nearby_boids += 1;
         }
     }
-    if (nearby_boids==0) {
+    /*if (nearby_boids==0) {
         throw std::runtime_error{"no boids are between lower and upper distances"};
-    };
+    };*/
     return sum/nearby_boids;
 }
 
@@ -157,9 +157,9 @@ double boids_flock::center_of_mass_y_nearby(boid const& a) const {
             nearby_boids += 1;
         }
     }
-    if (nearby_boids==0) {
+    /*if (nearby_boids==0) {
         throw std::runtime_error{"no boids are between lower and upper distances"};
-    };
+    };*/
     return sum/nearby_boids;
 }
 
@@ -189,6 +189,21 @@ void boids_flock::corner_behaviour() {
         }
     }
 }
+
+
+/*void boids_flock::corner_force() {
+    double margin = 5.0;
+    double turn_factor = 0.5;
+
+    for (auto& a : flock_) {
+        if (a.x_position < -20 + margin) a.v_x += turn_factor;
+        if (a.x_position >  20 - margin) a.v_x -= turn_factor;
+        if (a.y_position < -20 + margin) a.v_y += turn_factor;
+        if (a.y_position >  20 - margin) a.v_y -= turn_factor;
+    }
+}*/
+
+
 
 mean_velocity_vector boids_flock::mean_velocity() {
     double sum_vx{0.};

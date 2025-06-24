@@ -39,22 +39,10 @@ int main() {
     std::vector<project::boid> flock_vector;
     project::boids_flock flock(N_,flock_vector,d_,ds_,s_,a_,c_);
     
-    std::string command{};
-
-    /*while (true) {
-        boids_display::run();
-        flock.velocities_update();
-        flock.position_update_loop();
-        next_tick += tick;
-        std::this_thread::sleep_until(next_tick);
-        
-        }*/
-
-        //WORK IN PROGRESS 
-
-       boids_display::initialize(flock);
-       std::chrono::milliseconds tick(15);
-       auto next_tick = std::chrono::steady_clock::now();
+    boids_display::initialize(flock);
+    std::chrono::milliseconds tick(15); 
+    auto next_tick = std::chrono::steady_clock::now();
+    
     while (boids_display::window.isOpen()) {
         sf::Event event;
         while (boids_display::window.pollEvent(event)) {
@@ -62,7 +50,6 @@ int main() {
                 boids_display::window.close();
             }
         }
-
         // aggiorna simulazione
         flock.velocities_update();
         flock.position_update_loop();

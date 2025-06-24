@@ -5,11 +5,9 @@
 
 namespace boids_display {
 
-    inline sf::RenderWindow window(sf::VideoMode(800, 600), "Test");
+    extern sf::RenderWindow window;
 
     void initialize(project::boids_flock& flock_ref);
-
-    void run();
 
     void draw(const std::vector<project::boid>& flock);
 }
