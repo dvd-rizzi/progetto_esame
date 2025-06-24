@@ -3,7 +3,6 @@
 #include <cmath>
 #include <algorithm>
 #include <stdexcept>
-#include <iostream>
 #include <thread>
 #include <chrono>
 
@@ -31,13 +30,22 @@ boid boids_flock::boid_initialize() {
 }
 
 void boids_flock::addBoid(const boid& a) {
-        flock_.push_back(a);
+    if (flock_.size()==N_)  {
+        throw std::runtime_error{"no more boids can be added"};
+    };
+    flock_.push_back(a);
     }
 
 void boids_flock::flock_formation() {
     flock_.clear();
     for(int i{0}; i <= N_; ++i) {
         flock_.push_back(boid_initialize());
+    }
+}
+
+void boids_flock::flock_completion() {
+    while (flock_.size()<N_) {
+        boids_flock::addBoid(boid_initialize());
     }
 }
 
