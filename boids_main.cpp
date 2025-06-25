@@ -42,6 +42,9 @@ int main() {
     std::chrono::milliseconds tick(15); 
     auto next_tick = std::chrono::steady_clock::now();
     
+    auto last_log_time = std::chrono::steady_clock::now();
+    std::chrono::seconds log_interval(5);
+
     while (boids_display::window.isOpen()) {
         sf::Event event;
         while (boids_display::window.pollEvent(event)) {
@@ -49,12 +52,17 @@ int main() {
                 boids_display::window.close();
             }
         }
-        // aggiorna simulazione
         flock.velocities_update();
-        flock.position_update_loop();
-        flock.corner_behaviour();
-        // disegna lo stato corrente
+        flock.position_update();
+        flock.corner_force();
         boids_display::draw(flock.get_flock());
+
+        auto now = std::chrono::steady_clock::now();
+        if (now - last_log_time >= log_interval) {
+        std::cout << "Velocity: " << flock.mean_velocity() << " +- " << flock.velocity_st_deviation() << '\n';
+        std::cout << "Mean Distance between boids: " << flock.mean_distance() << "\n";
+        last_log_time = now;
+    }
 
         next_tick += tick;
         std::this_thread::sleep_until(next_tick);

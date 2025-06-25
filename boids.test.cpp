@@ -1,7 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "boids.hpp"
-
 #include "doctest.h"
+
 
 TEST_CASE("Checking the lower distance function") {
   project::boid b1{0., 0., 1., 1.};
@@ -369,6 +369,7 @@ TEST_CASE("Checking the corner behaviour") {
 
 TEST_CASE("Testing the mean velocity function") {
   //even if it is not possible the boids will have all the same position to make the test writing easier 
+  //DA AGGIORNARE
   project::boid b1{0., 0., 1., 1.};
   project::boid b2{0., 0., 0.7, 0.9};
   project::boid b3{0., 0., -4.5, 3.6};
@@ -386,8 +387,8 @@ TEST_CASE("Testing the mean velocity function") {
   flock.addBoid(b6);
   flock.addBoid(b7);
   flock.addBoid(b8);
-  CHECK(flock.mean_velocity().mean_velocity==doctest::Approx(1.81).epsilon(0.01));
-  CHECK(flock.mean_velocity().theta == doctest::Approx(161.93).epsilon(0.01));
+  CHECK(flock.mean_velocity() == doctest::Approx(1.81).epsilon(0.01));
+  CHECK(flock.mean_velocity() == doctest::Approx(161.93).epsilon(0.01));
 }
 
 TEST_CASE("Test the velocity_st_deviation function") {
