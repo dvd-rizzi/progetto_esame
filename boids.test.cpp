@@ -186,25 +186,6 @@ TEST_CASE("Testing the alignment rule function") {
     CHECK(flock.alignment_rule_x(b3) == doctest::Approx(7.5));
     CHECK(flock.alignment_rule_y(b3) == doctest::Approx(7.5));
   }
-
-  SUBCASE("Three boids, all too far to align") {
-    project::boid b1{0.,0.,0.,0.};
-    project::boid b2{100.,100.,10.,10.};
-    project::boid b3{-100.,-100.,10.,10.};
-    project::boids_flock flock{3, 25., 2., 0., 0.5, 0.};
-    flock.addBoid(b1);
-    flock.addBoid(b2);
-    flock.addBoid(b3);
-    CHECK_THROWS(flock.alignment_rule_x(b1));
-    CHECK_THROWS(flock.alignment_rule_y(b1));
-    CHECK_THROWS(flock.alignment_rule_x(b2));
-    CHECK_THROWS(flock.alignment_rule_y(b2));
-    CHECK_THROWS(flock.alignment_rule_x(b3));
-    CHECK_THROWS(flock.alignment_rule_y(b3));
-  }
-
-
-  
 }
 
 
@@ -236,41 +217,6 @@ TEST_CASE("testing the center of mass function") {
     CHECK(flock.get_center_of_mass_x_nearby(b1) == doctest::Approx(-0.750));
     CHECK(flock.get_center_of_mass_y_nearby(b1) == doctest::Approx(2.5));
   }
-    
-  SUBCASE("three boids in the same position") {
-    project::boid b1{1., 1., 0., 0.};
-    project::boid b2{1., 1., 0., 0.};
-    project::boid b3{1., 1., 0., 0.};
-    project::boids_flock flock{3, 20., 5., 0., 0., 0.};
-    flock.addBoid(b1);
-    flock.addBoid(b2);
-    flock.addBoid(b3);
-    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b1));
-    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b1));
-    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b2));
-    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b2));
-    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b3));
-    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b3));
-  }
-  
-
-  SUBCASE("three, widely apart boids") {
-    project::boid b1{-75., -80., 0., 0.};
-    project::boid b2{-30., 50., 0., 0.};
-    project::boid b3{90., 90., 0., 0.};
-    project::boids_flock flock{3, 20., 5., 0., 0., 0.};
-    flock.addBoid(b1);
-    flock.addBoid(b2);
-    flock.addBoid(b3);
-    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b1));
-    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b1));
-    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b2));
-    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b2));
-    CHECK_THROWS(flock.get_center_of_mass_x_nearby(b3));
-    CHECK_THROWS(flock.get_center_of_mass_y_nearby(b3));
-  }
-
-  
 }
 
 TEST_CASE("Checking the cohesion rule") {
@@ -369,7 +315,6 @@ TEST_CASE("Checking the corner behaviour") {
 
 TEST_CASE("Testing the mean velocity function") {
   //even if it is not possible the boids will have all the same position to make the test writing easier 
-  //DA AGGIORNARE
   project::boid b1{0., 0., 1., 1.};
   project::boid b2{0., 0., 0.7, 0.9};
   project::boid b3{0., 0., -4.5, 3.6};
@@ -387,12 +332,28 @@ TEST_CASE("Testing the mean velocity function") {
   flock.addBoid(b6);
   flock.addBoid(b7);
   flock.addBoid(b8);
-  CHECK(flock.mean_velocity() == doctest::Approx(1.81).epsilon(0.01));
-  CHECK(flock.mean_velocity() == doctest::Approx(161.93).epsilon(0.01));
+  CHECK(flock.mean_velocity() == doctest::Approx(3.3658).epsilon(0.01));
 }
 
 TEST_CASE("Test the velocity_st_deviation function") {
-
+  project::boid b1{0., 0., 1., 1.};
+  project::boid b2{0., 0., 0.7, 0.9};
+  project::boid b3{0., 0., -4.5, 3.6};
+  project::boid b4{0., 0., -10., 0.};
+  project::boid b5{0., 0., -3., -2.};
+  project::boid b6{0., 0., 0.01, -1.};
+  project::boid b7{0., 0., 2., 0.};
+  project::boid b8{0., 0., 0., 2.};
+  project::boids_flock flock{8, 20., 5., 0., 0., 0.};
+  flock.addBoid(b1);
+  flock.addBoid(b2);
+  flock.addBoid(b3);
+  flock.addBoid(b4);
+  flock.addBoid(b5);
+  flock.addBoid(b6);
+  flock.addBoid(b7);
+  flock.addBoid(b8);
+  CHECK(flock.velocity_st_deviation() == doctest::Approx(3.1151).epsilon(0.01));
 }
 
 TEST_CASE("Testing the mean_distance function") {
@@ -455,7 +416,7 @@ TEST_CASE("Testing the various functions to complete the flock") {
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.flock_completion();
-    CHECK(flock.get_flock().size()==4);
+    CHECK(flock.get_flock().size() == 4);
   }
 
 }

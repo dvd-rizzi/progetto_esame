@@ -31,7 +31,7 @@ boid boids_flock::boid_initialize() {
 }
 
 void boids_flock::addBoid(boid const& a) {
-  if (flock_.size() == N_) {
+  if (flock_.size() == static_cast<std::vector<project::boid>::size_type>(N_)) {
     throw std::runtime_error{"no more boids can be added"};
   };
   flock_.push_back(a);
@@ -45,7 +45,7 @@ void boids_flock::flock_formation() {
 }
 
 void boids_flock::flock_completion() {
-  while (flock_.size() < N_) {
+  while (flock_.size() < static_cast<std::vector<project::boid>::size_type>(N_)) {
     boids_flock::addBoid(boid_initialize());
   }
 }
