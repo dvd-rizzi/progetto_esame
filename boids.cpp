@@ -32,7 +32,7 @@ boid boids_flock::boid_initialize() {
 
 void boids_flock::addBoid(boid const& a) {
   if (flock_.size() == static_cast<std::vector<project::boid>::size_type>(N_)) {
-    throw std::runtime_error{"no more boids can be added"};
+    N_ = N_ + 1;
   };
   flock_.push_back(a);
 }
@@ -45,7 +45,8 @@ void boids_flock::flock_formation() {
 }
 
 void boids_flock::flock_completion() {
-  while (flock_.size() < static_cast<std::vector<project::boid>::size_type>(N_)) {
+  while (flock_.size() <
+         static_cast<std::vector<project::boid>::size_type>(N_)) {
     boids_flock::addBoid(boid_initialize());
   }
 }
@@ -220,11 +221,11 @@ void boids_flock::corner_force() {
 double boids_flock::mean_velocity() {
   double sum_v{0.};
   sum_v = std::accumulate(flock_.begin(), flock_.end(), 0.,
-        [](double acc, boid const& b) {
-            double v = std::sqrt(b.v_x * b.v_x + b.v_y * b.v_y);
-            return acc + v;
-            });
-        return sum_v / static_cast<double>(flock_.size());
+                          [](double acc, boid const& b) {
+                            double v = std::sqrt(b.v_x * b.v_x + b.v_y * b.v_y);
+                            return acc + v;
+                          });
+  return sum_v / static_cast<double>(flock_.size());
 }
 
 double boids_flock::velocity_st_deviation() {
@@ -258,17 +259,6 @@ void boids_flock::external_effects(boid& a) {
             boids_flock::separation_rule_x(a));
   a.v_y += (boids_flock::alignment_rule_y(a) + boids_flock::cohesion_rule_y(a) +
             boids_flock::separation_rule_y(a));
-  double v = std::sqrt(a.v_x * a.v_x + a.v_y * a.v_y);
-  const double min_speed{5.};
-  const double max_speed{15.};
-
-  if (v < min_speed) {
-    a.v_x = (a.v_x / v) * min_speed;
-    a.v_y = (a.v_y / v) * min_speed;
-  } else if (v > max_speed) {
-    a.v_x = (a.v_x / v) * max_speed;
-    a.v_y = (a.v_y / v) * max_speed;
-  }
 }
 
 void boids_flock::velocities_update() {
@@ -281,32 +271,33 @@ module boids_flock::external_effects2(boid& a) {
   double vx{0.};
   double vy{0.};
   vx += (boids_flock::alignment_rule_x(a) + boids_flock::cohesion_rule_x(a) +
-            boids_flock::separation_rule_x(a));
+         boids_flock::separation_rule_x(a));
   vy += (boids_flock::alignment_rule_y(a) + boids_flock::cohesion_rule_y(a) +
-            boids_flock::separation_rule_y(a));
-  double v = std::sqrt(vx * vx + vy * vy);
-  const double min_speed{3.};
-  const double max_speed{15.};
+         boids_flock::separation_rule_y(a));
 
-  if (v < min_speed) {
-    vx = (vx / v) * min_speed;
-    vy = (vy / v) * min_speed;
-  } else if (v > max_speed) {
-    vx = (vx / v) * max_speed;
-    vy = (vy / v) * max_speed;
-  }
   return {vx, vy};
 }
 
 void boids_flock::velocities_update2() {
   std::vector<module> result;
-    for (auto& a : flock_) {
-      result.push_back(boids_flock::external_effects2(a));
-  }
-  int i=0;
+  const double min_speed{3.};
+  const double max_speed{15.};
   for (auto& a : flock_) {
-    a.v_x+=result[i].x;
-    a.v_y+=result[i].y;
+    result.push_back(boids_flock::external_effects2(a));
+  }
+  long unsigned int i = 0;
+  for (auto& a : flock_) {
+    a.v_x += result[i].x;
+    a.v_y += result[i].y;
+    double v = std::sqrt(a.v_x * a.v_x + a.v_y * a.v_y);
+
+    if (v < min_speed) {
+      a.v_x = (a.v_x / v) * min_speed;
+      a.v_y = (a.v_y / v) * min_speed;
+    } else if (v > max_speed) {
+      a.v_x = (a.v_x / v) * max_speed;
+      a.v_y = (a.v_y / v) * max_speed;
+    }
     i++;
   }
 }

@@ -55,6 +55,6 @@ void draw(const std::vector<project::boid>& flock) {
   }
 
   window.display();
-}
+} 
 
-}  
+}

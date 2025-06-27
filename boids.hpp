@@ -45,7 +45,7 @@ class boids_flock {
 
   const std::vector<boid>& get_flock() const;
 
-  boid boid_initialize();
+  static boid boid_initialize();
 
   void flock_formation();
 
