@@ -383,15 +383,33 @@ TEST_CASE("Testing the mean_distance function") {
 }
 
 TEST_CASE("Testing the velocities update function") {
-  SUBCASE("two boids, very basic scenario"){
-    project::boid b1{0., 0., 0., 0.};
-    project::boid b2{3., 0., 3., 0.};
+  
+  SUBCASE("two boids, very basic scenario (usando il metodo base)"){
+    project::boid b1{0., 0., 8., 0.};
+    project::boid b2{3., 0., 0., 8.};
     project::boids_flock flock{2, 20., 2., 1., 0.5, 0.5};
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.velocities_update();
-    CHECK(flock.get_flock()[0].v_x==doctest::Approx(3));
-    CHECK(flock.get_flock()[1].v_x==doctest::Approx(1.5));
+    CHECK(flock.get_flock()[0].v_x==doctest::Approx(5.5));
+    CHECK(flock.get_flock()[0].v_y==doctest::Approx(4.));
+    CHECK(flock.get_flock()[1].v_x==doctest::Approx(1.25));
+    CHECK(flock.get_flock()[1].v_y==doctest::Approx(6.));
+
+  }
+
+  SUBCASE("two boids, very basic scenario (usando il metodo perfezionato)"){
+    project::boid b1{0., 0., 8., 0.};
+    project::boid b2{3., 0., 0., 8.};
+    project::boids_flock flock{2, 20., 2., 1., 0.5, 0.5};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.velocities_update2();
+    CHECK(flock.get_flock()[0].v_x==doctest::Approx(5.5));
+    CHECK(flock.get_flock()[0].v_y==doctest::Approx(4.));
+    CHECK(flock.get_flock()[1].v_x==doctest::Approx(2.5));
+    CHECK(flock.get_flock()[1].v_y==doctest::Approx(4.));
+
   }
 
 }

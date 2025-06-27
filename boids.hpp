@@ -11,6 +11,11 @@ struct boid {
   double v_y;
 };
 
+struct module {
+  double x;
+  double y;
+};
+
 
 bool operator!=(boid a, boid b);
 
@@ -85,6 +90,10 @@ class boids_flock {
   void external_effects(boid& a);
 
   void velocities_update();
+
+  void velocities_update2();
+
+  module external_effects2(boid& a);
 
   void position_update();
 

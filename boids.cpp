@@ -277,6 +277,40 @@ void boids_flock::velocities_update() {
   }
 }
 
+module boids_flock::external_effects2(boid& a) {
+  double vx{0.};
+  double vy{0.};
+  vx += (boids_flock::alignment_rule_x(a) + boids_flock::cohesion_rule_x(a) +
+            boids_flock::separation_rule_x(a));
+  vy += (boids_flock::alignment_rule_y(a) + boids_flock::cohesion_rule_y(a) +
+            boids_flock::separation_rule_y(a));
+  double v = std::sqrt(vx * vx + vy * vy);
+  const double min_speed{3.};
+  const double max_speed{15.};
+
+  if (v < min_speed) {
+    vx = (vx / v) * min_speed;
+    vy = (vy / v) * min_speed;
+  } else if (v > max_speed) {
+    vx = (vx / v) * max_speed;
+    vy = (vy / v) * max_speed;
+  }
+  return {vx, vy};
+}
+
+void boids_flock::velocities_update2() {
+  std::vector<module> result;
+    for (auto& a : flock_) {
+      result.push_back(boids_flock::external_effects2(a));
+  }
+  int i=0;
+  for (auto& a : flock_) {
+    a.v_x+=result[i].x;
+    a.v_y+=result[i].y;
+    i++;
+  }
+}
+
 void boids_flock::position_update() {
   const double dt = 0.015;
   for (auto& a : flock_) {
