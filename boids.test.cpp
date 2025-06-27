@@ -257,22 +257,22 @@ TEST_CASE("Checking the cohesion rule") {
   }
 }
 
-TEST_CASE("Checking the corner behaviour") {
+TEST_CASE("Checking the corner force") {
   SUBCASE("The boid hits the upper/right/lower/left corner") {
-    project::boid b1{2., 20., -3., 10.};
-    project::boid expected1{2., 20., -3., -10.};
-    project::boid b2{20., -10., 8., 3.};
-    project::boid expected2{20., -10., -8., 3.};
-    project::boid b3{-15., -20., 10., -7.};
-    project::boid expected3{-15., -20., 10., 7.};
-    project::boid b4{-20., 11., -10., -7.};
-    project::boid expected4{-20., 11., 10., -7.};
+    project::boid b1{2., 140., -3., 10.};
+    project::boid expected1{2., 140., -3., 8.5};
+    project::boid b2{140., -10., 8., 3.};
+    project::boid expected2{140., -10., 6.5, 3.};
+    project::boid b3{-15., -140., 10., -7.};
+    project::boid expected3{-15., -140., 10., -5.5};
+    project::boid b4{-140., 11., -10., -7.};
+    project::boid expected4{-140., 11., -8.5, -7.};
     project::boids_flock flock{4, 20., 5., 0., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
-    flock.corner_behaviour();
+    flock.corner_force();
     const project::boid& result1 = flock.get_flock()[0];
     const project::boid& result2 = flock.get_flock()[1];
     const project::boid& result3 = flock.get_flock()[2];
@@ -284,20 +284,20 @@ TEST_CASE("Checking the corner behaviour") {
   }
 
   SUBCASE("boids exactly in the corners") {
-    project::boid b1{20., 20., -3., 10.};
-    project::boid expected1{20., 20., 3., -10.};
-    project::boid b2{20., -20., 8., 3.};
-    project::boid expected2{20., -20., -8., -3.};
-    project::boid b3{-20., -20., 10., -7.};
-    project::boid expected3{-20., -20., -10., 7.};
-    project::boid b4{-20., 20., -10., -7.};
-    project::boid expected4{-20., 20., 10., 7.};
+    project::boid b1{140., 140., -3., 10.};
+    project::boid expected1{140., 140., -4.5, 8.5};
+    project::boid b2{140., -140., 8., 3.};
+    project::boid expected2{140., -140., 6.5, 4.5};
+    project::boid b3{-140., -140., 10., -7.};
+    project::boid expected3{-140., -140., 11.5, -5.5};
+    project::boid b4{-140., 140., -10., -7.};
+    project::boid expected4{-140., 140., -8.5, -8.5};
     project::boids_flock flock{4, 20., 5., 0., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
-    flock.corner_behaviour();
+    flock.corner_force();
     const project::boid& result1 = flock.get_flock()[0];
     const project::boid& result2 = flock.get_flock()[1];
     const project::boid& result3 = flock.get_flock()[2];
@@ -383,20 +383,6 @@ TEST_CASE("Testing the mean_distance function") {
 }
 
 TEST_CASE("Testing the velocities update function") {
-  
-  SUBCASE("two boids, very basic scenario (usando il metodo base)"){
-    project::boid b1{0., 0., 8., 0.};
-    project::boid b2{3., 0., 0., 8.};
-    project::boids_flock flock{2, 20., 2., 1., 0.5, 0.5};
-    flock.addBoid(b1);
-    flock.addBoid(b2);
-    flock.velocities_update();
-    CHECK(flock.get_flock()[0].v_x==doctest::Approx(5.5));
-    CHECK(flock.get_flock()[0].v_y==doctest::Approx(4.));
-    CHECK(flock.get_flock()[1].v_x==doctest::Approx(1.25));
-    CHECK(flock.get_flock()[1].v_y==doctest::Approx(6.));
-
-  }
 
   SUBCASE("two boids, very basic scenario (usando il metodo perfezionato)"){
     project::boid b1{0., 0., 8., 0.};
