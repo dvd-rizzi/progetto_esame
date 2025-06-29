@@ -2,7 +2,6 @@
 #include "boids.hpp"
 #include "doctest.h"
 
-
 TEST_CASE("Checking the lower distance function") {
   project::boid b1{0., 0., 1., 1.};
   SUBCASE("second boid way farther than lower distance") {
@@ -145,7 +144,6 @@ TEST_CASE("Testing the alignment rule function") {
     CHECK(flock.alignment_rule_x(b2) == doctest::Approx(0.));
     CHECK(flock.alignment_rule_y(b2) == doctest::Approx(0.));
   }
-  
 
   SUBCASE("Two boids, one initially still") {
     project::boid b1{10., 10., -5., -5.};
@@ -172,9 +170,9 @@ TEST_CASE("Testing the alignment rule function") {
   }
 
   SUBCASE("Three boids, one initially still") {
-    project::boid b1{-5.,5.,10.,10.};
+    project::boid b1{-5., 5., 10., 10.};
     project::boid b2{0., 0., 0., 0.};
-    project::boid b3{5.,-5.,-10.,-10.};
+    project::boid b3{5., -5., -10., -10.};
     project::boids_flock flock{3, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -188,7 +186,6 @@ TEST_CASE("Testing the alignment rule function") {
   }
 }
 
-
 TEST_CASE("testing the center of mass function") {
   SUBCASE("three boids") {
     project::boid b1{1., 1., 0., 0.};
@@ -198,8 +195,10 @@ TEST_CASE("testing the center of mass function") {
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    CHECK(flock.get_center_of_mass_x_nearby(b1) == doctest::Approx(0.500).epsilon(0.01));
-    CHECK(flock.get_center_of_mass_y_nearby(b1) == doctest::Approx(1.500).epsilon(0.01));
+    CHECK(flock.get_center_of_mass_x_nearby(b1) ==
+          doctest::Approx(0.500).epsilon(0.01));
+    CHECK(flock.get_center_of_mass_y_nearby(b1) ==
+          doctest::Approx(1.500).epsilon(0.01));
   }
 
   SUBCASE("five boids") {
@@ -221,9 +220,9 @@ TEST_CASE("testing the center of mass function") {
 
 TEST_CASE("Checking the cohesion rule") {
   SUBCASE("three boids, all in range") {
-    project::boid b1{0.,0.,0.,0.};
-    project::boid b2{4.,0.,0.,0.};
-    project::boid b3{2.,2.,0.,0.};
+    project::boid b1{0., 0., 0., 0.};
+    project::boid b2{4., 0., 0., 0.};
+    project::boid b3{2., 2., 0., 0.};
     project::boids_flock flock{3, 20., 2., 0., 0., 2.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -237,10 +236,10 @@ TEST_CASE("Checking the cohesion rule") {
   }
 
   SUBCASE("four boids in different quadrants") {
-    project::boid b1{4.,4.,0.,0.};
-    project::boid b2{-4.,4.,0.,0.};
-    project::boid b3{-4.,-4.,0.,0.};
-    project::boid b4{4.,-4.,0.,0.};
+    project::boid b1{4., 4., 0., 0.};
+    project::boid b2{-4., 4., 0., 0.};
+    project::boid b3{-4., -4., 0., 0.};
+    project::boid b4{4., -4., 0., 0.};
     project::boids_flock flock{4, 21., 2., 0., 0., 2.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -314,7 +313,6 @@ TEST_CASE("Checking the corner force") {
 }
 
 TEST_CASE("Testing the mean velocity function") {
-  //even if it is not possible the boids will have all the same position to make the test writing easier 
   project::boid b1{0., 0., 1., 1.};
   project::boid b2{0., 0., 0.7, 0.9};
   project::boid b3{0., 0., -4.5, 3.6};
@@ -357,7 +355,7 @@ TEST_CASE("Test the velocity_st_deviation function") {
 }
 
 TEST_CASE("Testing the mean_distance function") {
-  SUBCASE("four boids"){
+  SUBCASE("four boids") {
     project::boid b1{2., 2., 0., 0.};
     project::boid b2{2., -2., 0., 0.};
     project::boid b3{-2., -2., 0., 0.};
@@ -383,44 +381,16 @@ TEST_CASE("Testing the mean_distance function") {
 }
 
 TEST_CASE("Testing the velocities update function") {
-
-  SUBCASE("two boids, very basic scenario (usando il metodo perfezionato)"){
+  SUBCASE("two boids, very basic scenario (usando il metodo perfezionato)") {
     project::boid b1{0., 0., 8., 0.};
     project::boid b2{3., 0., 0., 8.};
     project::boids_flock flock{2, 20., 2., 1., 0.5, 0.5};
     flock.addBoid(b1);
     flock.addBoid(b2);
-    flock.velocities_update2();
-    CHECK(flock.get_flock()[0].v_x==doctest::Approx(5.5));
-    CHECK(flock.get_flock()[0].v_y==doctest::Approx(4.));
-    CHECK(flock.get_flock()[1].v_x==doctest::Approx(2.5));
-    CHECK(flock.get_flock()[1].v_y==doctest::Approx(4.));
-
+    flock.velocities_update();
+    CHECK(flock.get_flock()[0].v_x == doctest::Approx(5.5));
+    CHECK(flock.get_flock()[0].v_y == doctest::Approx(4.));
+    CHECK(flock.get_flock()[1].v_x == doctest::Approx(2.5));
+    CHECK(flock.get_flock()[1].v_y == doctest::Approx(4.));
   }
-
-}
-
-TEST_CASE("Testing the various functions to complete the flock") {
-  SUBCASE("trying to add three boids to a flock of size 2"){
-    project::boid b1{0., 0., 0., 0.};
-    project::boid b2{0., 0., 0., 0.};
-    project::boid b3{0., 0., 0., 0.};
-    project::boids_flock flock{2, 20., 2., 1., 0.5, 0.5};
-    flock.addBoid(b1);
-    flock.addBoid(b2);
-    CHECK_THROWS(flock.addBoid(b3));
-  }
-
-  SUBCASE("checking the flock_completion function"){
-    project::boid b1{0., 0., 0., 0.};
-    project::boid b2{0., 0., 0., 0.};
-    project::boid b3{0., 0., 0., 0.};
-    project::boids_flock flock{4, 20., 2., 1., 0.5, 0.5};
-    flock.addBoid(b1);
-    flock.addBoid(b2);
-    flock.addBoid(b3);
-    flock.flock_completion();
-    CHECK(flock.get_flock().size() == 4);
-  }
-
 }

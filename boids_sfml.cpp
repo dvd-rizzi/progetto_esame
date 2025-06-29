@@ -29,7 +29,7 @@ void initialize(project::boids_flock& flock_ref) {
 
   background_sprite.setTexture(background_texture);
 
-  sf::Vector2u texture_size = background_texture.getSize();  
+  sf::Vector2u texture_size = background_texture.getSize();
   float scale_x = 300.f / static_cast<float>(texture_size.x);
   float scale_y = 300.f / static_cast<float>(texture_size.y);
   background_sprite.setScale(scale_x, scale_y);
@@ -55,6 +55,6 @@ void draw(const std::vector<project::boid>& flock) {
   }
 
   window.display();
-} 
-
 }
+
+} 

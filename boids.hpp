@@ -45,14 +45,6 @@ class boids_flock {
 
   const std::vector<boid>& get_flock() const;
 
-  static boid boid_initialize();
-
-  void flock_formation();
-
-  void flock_completion();
-
-  void addBoid(const boid& a);
-
   bool get_upper_distance(boid const& a, boid const& b) const;
 
   bool get_lower_distance(boid const& a, boid const& b) const;
@@ -60,6 +52,16 @@ class boids_flock {
   double get_reciprocal_distance_x(boid const& a, boid const& b) const;
 
   double get_reciprocal_distance_y(boid const& a, boid const& b) const;
+
+  double get_center_of_mass_x_nearby(boid const& a) const;
+
+  double get_center_of_mass_y_nearby(boid const& a) const;
+
+  static boid boid_initialize();
+
+  void flock_formation();
+
+  void addBoid(const boid& a);
 
   double separation_rule_x(boid const& a) const;
 
@@ -69,15 +71,9 @@ class boids_flock {
 
   double alignment_rule_y(boid const& a) const;
 
-  double get_center_of_mass_x_nearby(boid const& a) const;
-
-  double get_center_of_mass_y_nearby(boid const& a) const;
-
   double cohesion_rule_x(boid const& a) const;
 
   double cohesion_rule_y(boid const& a) const;
-
-  void corner_behaviour();
 
   void corner_force();
 
@@ -87,13 +83,9 @@ class boids_flock {
 
   double mean_distance();
 
-  void external_effects(boid& a);
+  module external_effects(boid& a);
 
   void velocities_update();
-
-  void velocities_update2();
-
-  module external_effects2(boid& a);
 
   void position_update();
 

@@ -54,7 +54,8 @@ int main() {
       }
       if (event.type == sf::Event::MouseButtonReleased) {
         sf::Vector2i pixelPos(event.mouseButton.x, event.mouseButton.y);
-        sf::Vector2f worldPos = boids_display::window.mapPixelToCoords(pixelPos);
+        sf::Vector2f worldPos =
+            boids_display::window.mapPixelToCoords(pixelPos);
         double clickx = worldPos.x;
         double clicky = worldPos.y;
         project::boid NewBoid = project::boids_flock::boid_initialize();
@@ -63,7 +64,7 @@ int main() {
         flock.addBoid(NewBoid);
       }
     }
-    flock.velocities_update2();
+    flock.velocities_update();
     flock.position_update();
     flock.corner_force();
     boids_display::draw(flock.get_flock());
@@ -73,7 +74,8 @@ int main() {
       std::cout << "Velocity: " << flock.mean_velocity() << " +- "
                 << flock.velocity_st_deviation() << '\n';
       std::cout << "Mean Distance between boids: " << flock.mean_distance()
-                << "\n";
+                << '\n';
+      std::cout << '\n';
       last_log_time = now;
     }
 
