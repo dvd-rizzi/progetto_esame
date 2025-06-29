@@ -61,7 +61,7 @@ class boids_flock {
 
   void flock_formation();
 
-  void addBoid(const boid& a);
+  void addBoid(boid const& a);
 
   double separation_rule_x(boid const& a) const;
 
@@ -83,7 +83,7 @@ class boids_flock {
 
   double mean_distance();
 
-  module external_effects(boid& a);
+  module external_effects(boid const& a);
 
   void velocities_update();
 

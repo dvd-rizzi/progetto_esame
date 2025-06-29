@@ -236,7 +236,7 @@ double boids_flock::mean_distance() {
   return sum_distance_modules / number_distances;
 }
 
-module boids_flock::external_effects(boid& a) {
+module boids_flock::external_effects(boid const& a) {
   double vx{0.};
   double vy{0.};
   vx += (boids_flock::alignment_rule_x(a) + boids_flock::cohesion_rule_x(a) +
@@ -260,13 +260,13 @@ void boids_flock::velocities_update() {
     a.v_y += result[i].y;
     double v = std::sqrt(a.v_x * a.v_x + a.v_y * a.v_y);
 
-    if (v < min_speed) {
+    /*if (v < min_speed) {
       a.v_x = (a.v_x / v) * min_speed;
       a.v_y = (a.v_y / v) * min_speed;
     } else if (v > max_speed) {
       a.v_x = (a.v_x / v) * max_speed;
       a.v_y = (a.v_y / v) * max_speed;
-    }
+    }*/
     i++;
   }
 }
