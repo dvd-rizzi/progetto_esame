@@ -1,10 +1,10 @@
-__________             ._____________       .__    .___      
+```_________             ._____________       .__    .___      
 \______   \_____     __| _/\______   \ ____ |__| __| _/______
  |    |  _/\__  \   / __ |  |    |  _//  _ \|  |/ __ |/  ___/
  |    |   \ / __ \_/ /_/ |  |    |   (  <_> )  / /_/ |\___ \ 
  |______  /(____  /\____ |  |______  /\____/|__\____ /____  >
         \/      \/      \/         \/               \/    \/ 
-
+```
 #Introduzione
 
 Il nostro progetto consiste nell'implementazione di un programma che simula il comportamento di uno stormo di uccelli in volo in uno spazio bidimensionale.

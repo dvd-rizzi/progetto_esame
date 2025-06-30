@@ -77,6 +77,8 @@ class boids_flock {
 
   void corner_force();
 
+  double flock_velocity();
+
   double mean_velocity();
 
   double velocity_st_deviation();

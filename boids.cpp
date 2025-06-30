@@ -14,7 +14,7 @@ std::default_random_engine eng(r());
 std::uniform_real_distribution<double> angle(0.0, 2.0 * M_PI);
 std::uniform_real_distribution<double> x_position(-150., 150.);
 std::uniform_real_distribution<double> y_position(-150., 150.);
-std::normal_distribution<double> speed(10., 1.);
+std::normal_distribution<double> speed(15., 1.);
 
 const std::vector<boid>& boids_flock::get_flock() const { return flock_; }
 
@@ -200,6 +200,22 @@ void boids_flock::corner_force() {
   }
 }
 
+double boids_flock::flock_velocity() {
+  double sum_vx{0.};
+  double sum_vy{0.};
+  double mean_vx{0.};
+  double mean_vy{0.};
+  double v{0.};
+  sum_vx = std::accumulate(flock_.begin(), flock_.end(), 0.,
+                      [](double acc, boid const& b) { return acc + b.v_x; });
+  sum_vy = std::accumulate(flock_.begin(), flock_.end(), 0.,
+                      [](double acc, boid const& b) { return acc + b.v_y; });
+  mean_vx = sum_vx / N_;
+  mean_vy = sum_vy / N_;
+  v = std::sqrt(mean_vx * mean_vx + mean_vy * mean_vy);
+  return v;
+}
+
 double boids_flock::mean_velocity() {
   double sum_v{0.};
   sum_v = std::accumulate(flock_.begin(), flock_.end(), 0.,
@@ -249,8 +265,8 @@ module boids_flock::external_effects(boid const& a) {
 
 void boids_flock::velocities_update() {
   std::vector<module> result;
-  const double min_speed{3.};
-  const double max_speed{15.};
+  const double min_speed{10.};
+  const double max_speed{20.};
   for (auto& a : flock_) {
     result.push_back(boids_flock::external_effects(a));
   }
@@ -260,13 +276,13 @@ void boids_flock::velocities_update() {
     a.v_y += result[i].y;
     double v = std::sqrt(a.v_x * a.v_x + a.v_y * a.v_y);
 
-    /*if (v < min_speed) {
+    if (v < min_speed) {
       a.v_x = (a.v_x / v) * min_speed;
       a.v_y = (a.v_y / v) * min_speed;
     } else if (v > max_speed) {
       a.v_x = (a.v_x / v) * max_speed;
       a.v_y = (a.v_y / v) * max_speed;
-    }*/
+    }
     i++;
   }
 }
@@ -279,4 +295,4 @@ void boids_flock::position_update() {
   }
 }
 
-}  
+}  // namespace project

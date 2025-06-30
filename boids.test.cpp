@@ -312,7 +312,54 @@ TEST_CASE("Checking the corner force") {
   }
 }
 
+TEST_CASE("Testing the flock_velocity function") {
+
+  SUBCASE("Random boids") {
+  project::boid b1{0., 0., 1., 1.};
+  project::boid b2{0., 0., 0.7, 0.9};
+  project::boid b3{0., 0., -4.5, 3.6};
+  project::boid b4{0., 0., -10., 0.};
+  project::boid b5{0., 0., -3., -2.};
+  project::boid b6{0., 0., 0.01, -1.};
+  project::boid b7{0., 0., 2., 0.};
+  project::boid b8{0., 0., 0., 2.};
+  project::boids_flock flock{8, 20., 5., 0., 0., 0.};
+  flock.addBoid(b1);
+  flock.addBoid(b2);
+  flock.addBoid(b3);
+  flock.addBoid(b4);
+  flock.addBoid(b5);
+  flock.addBoid(b6);
+  flock.addBoid(b7);
+  flock.addBoid(b8);
+  CHECK(flock.flock_velocity() == doctest::Approx(1.813207).epsilon(0.01));
+  }
+
+  SUBCASE("Boids whose velocities cancel out each other") {
+  project::boid b1{0., 0., 1., 1.};
+  project::boid b2{0., 0., -1., -1.};
+  project::boid b3{0., 0., -4.5, -4.5};
+  project::boid b4{0., 0., 4.5, 4.5};
+  project::boid b5{0., 0., -2., 3.};
+  project::boid b6{0., 0., 2., -3.};
+  project::boid b7{0., 0., 10., 0.};
+  project::boid b8{0., 0., -10., 0.};
+  project::boids_flock flock{8, 20., 5., 0., 0., 0.};
+  flock.addBoid(b1);
+  flock.addBoid(b2);
+  flock.addBoid(b3);
+  flock.addBoid(b4);
+  flock.addBoid(b5);
+  flock.addBoid(b6);
+  flock.addBoid(b7);
+  flock.addBoid(b8);
+  CHECK(flock.flock_velocity() == doctest::Approx(0.000));
+  }
+}
+
 TEST_CASE("Testing the mean velocity function") {
+
+  SUBCASE("Random boids"){
   project::boid b1{0., 0., 1., 1.};
   project::boid b2{0., 0., 0.7, 0.9};
   project::boid b3{0., 0., -4.5, 3.6};
@@ -331,6 +378,7 @@ TEST_CASE("Testing the mean velocity function") {
   flock.addBoid(b7);
   flock.addBoid(b8);
   CHECK(flock.mean_velocity() == doctest::Approx(3.3658).epsilon(0.01));
+  }
 }
 
 TEST_CASE("Test the velocity_st_deviation function") {

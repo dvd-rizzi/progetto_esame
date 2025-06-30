@@ -10,7 +10,7 @@ int main() {
   int N_;
   std::cout << "inserisci il numero di boid: " << '\n';
   std::cin >> N_;
-  assert(N_ > 0);
+  assert(N_ > 1);
 
   double d_;
   std::cout << "inserisci la distanza massima tra i boid: " << '\n';
@@ -75,7 +75,10 @@ int main() {
                 << flock.velocity_st_deviation() << '\n';
       std::cout << "Mean Distance between boids: " << flock.mean_distance()
                 << '\n';
+      std::cout << "Flock Velocity: " << flock.flock_velocity()
+                << '\n';
       std::cout << '\n';
+
       last_log_time = now;
     }
 
