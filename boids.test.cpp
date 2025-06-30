@@ -379,6 +379,27 @@ TEST_CASE("Testing the mean velocity function") {
   flock.addBoid(b8);
   CHECK(flock.mean_velocity() == doctest::Approx(3.3658).epsilon(0.01));
   }
+
+  SUBCASE("Velocities components cancelling out each other") {
+  project::boid b1{0., 0., 1., 1.};
+  project::boid b2{0., 0., -1., -1.};
+  project::boid b3{0., 0., -4.5, -4.5};
+  project::boid b4{0., 0., 4.5, 4.5};
+  project::boid b5{0., 0., -2., 3.};
+  project::boid b6{0., 0., 2., -3.};
+  project::boid b7{0., 0., 10., 0.};
+  project::boid b8{0., 0., -10., 0.};
+  project::boids_flock flock{8, 20., 5., 0., 0., 0.};
+  flock.addBoid(b1);
+  flock.addBoid(b2);
+  flock.addBoid(b3);
+  flock.addBoid(b4);
+  flock.addBoid(b5);
+  flock.addBoid(b6);
+  flock.addBoid(b7);
+  flock.addBoid(b8);
+  CHECK(flock.mean_velocity() == doctest::Approx(5.345931).epsilon(0.01));
+  }
 }
 
 TEST_CASE("Test the velocity_st_deviation function") {

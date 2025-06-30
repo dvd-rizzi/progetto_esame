@@ -5,7 +5,7 @@
  |______  /(____  /\____ |  |______  /\____/|__\____ /____  >
         \/      \/      \/         \/               \/    \/ 
 ```
-#Introduzione
+# Introduzione
 
 Il nostro progetto consiste nell'implementazione di un programma che simula il comportamento di uno stormo di uccelli in volo in uno spazio bidimensionale.
 
@@ -27,16 +27,21 @@ e per eseguire utilizzare:
 ./build/Release/boids
 ./build/Debug/boids
 ```
-
 All'avvio del programma sarà necessario inserire dei parametri per la formazione dello stormo:
-1. Il **numero di Boids**;
-2. La **distanza massima** entro cui le regole di coesione e di allineamento hanno effetto; 
-3. La **distanza minima** al di sotto della quale entra in gioco la regola di separazione;
-4. Il **fattore di separazione** che determina l'intensità di repulsione dei boids vicini;
-5. Il **fattore di allineamento** che detertmina la tendenza dei boids ad uniformare il verso delle proprie velocità (*è necessario che tale fattore sia strettamente minore di 1*);
-6. Il **fattore di coesione** che determina l'intensità dell'attrazione del boid verso il centro di massa dei boids limitrofi.
+1. Il **numero di Boids (N_)**;
+2. La **distanza massima (d_)** entro cui le regole di coesione e di allineamento hanno effetto; 
+3. La **distanza minima (ds_)** al di sotto della quale entra in gioco la regola di separazione;
+4. Il **fattore di separazione (s_)** che determina l'intensità di repulsione dei boids vicini;
+5. Il **fattore di allineamento (a_)** che detertmina la tendenza dei boids ad uniformare il verso delle proprie velocità (*è necessario che tale fattore sia strettamente minore di 1*);
+6. Il **fattore di coesione (c_)** che determina l'intensità dell'attrazione del boid verso il centro di massa dei boids limitrofi.
 
-Per il 
+A seconda della scelta dei parametri, la simulazione potrà comportarsi in modo differente, rendendo più o meno apprezzabile la formazione dello stormo. Per un'inizializzazione ottimale si consiglia di scegliere i parametri nei seguenti range:
+1. **N_** < 80
+2. 10 < **d_** < 15>
+3. 2 < **ds_** < 4
+4. 3 < **s_** < 5
+5. 0.2 < **a_** 0.6
+6. **c_** < 0.15
 
 
 
