@@ -184,6 +184,26 @@ TEST_CASE("Testing the alignment rule function") {
     CHECK(flock.alignment_rule_x(b3) == doctest::Approx(7.5));
     CHECK(flock.alignment_rule_y(b3) == doctest::Approx(7.5));
   }
+  
+  SUBCASE("Testing the return when boids are too far apart") {
+    project::boid b1{100., 100., 10., 10.};
+    project::boid b2{100., -100., 10., -10.};
+    project::boid b3{-100., 100., -10., 10.};
+    project::boid b4{-100., -100., -10., -10.};
+    project::boids_flock flock{4, 20., 2., 0., 0.5, 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    CHECK(flock.alignment_rule_x(b1) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_y(b1) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_x(b2) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_y(b2) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_x(b3) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_y(b3) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_x(b4) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule_y(b4) == doctest::Approx(0.));
+  }
 }
 
 TEST_CASE("testing the center of mass function") {
@@ -358,7 +378,6 @@ TEST_CASE("Testing the flock_velocity function") {
 }
 
 TEST_CASE("Testing the mean velocity function") {
-
   SUBCASE("Random boids"){
   project::boid b1{0., 0., 1., 1.};
   project::boid b2{0., 0., 0.7, 0.9};
@@ -403,6 +422,18 @@ TEST_CASE("Testing the mean velocity function") {
 }
 
 TEST_CASE("Test the velocity_st_deviation function") {
+
+  SUBCASE("Two boids, simple situation") {
+    project::boid b1{0.,0.,3.,4.};
+    project::boid b2{0.,0.,8.,6.};
+    project::boids_flock flock{2,20.,1.,0.5,0.5,0.5};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    CHECK(flock.mean_velocity()==doctest::Approx(7.5));
+    CHECK(flock.velocity_st_deviation()==doctest::Approx(3.535).epsilon(0.01));
+  }
+
+  SUBCASE("Eight boids") {
   project::boid b1{0., 0., 1., 1.};
   project::boid b2{0., 0., 0.7, 0.9};
   project::boid b3{0., 0., -4.5, 3.6};
@@ -421,6 +452,7 @@ TEST_CASE("Test the velocity_st_deviation function") {
   flock.addBoid(b7);
   flock.addBoid(b8);
   CHECK(flock.velocity_st_deviation() == doctest::Approx(3.1151).epsilon(0.01));
+  }
 }
 
 TEST_CASE("Testing the mean_distance function") {
@@ -450,7 +482,7 @@ TEST_CASE("Testing the mean_distance function") {
 }
 
 TEST_CASE("Testing the velocities update function") {
-  SUBCASE("two boids, very basic scenario (usando il metodo perfezionato)") {
+  SUBCASE("two boids, very basic scenario") {
     project::boid b1{0., 0., 18., 0.};
     project::boid b2{0., 8., 0., 18.};
     project::boids_flock flock{2, 20., 2., 0.5, 0.5, 0.5};
@@ -462,4 +494,51 @@ TEST_CASE("Testing the velocities update function") {
     CHECK(flock.get_flock()[1].v_x == doctest::Approx(9.));
     CHECK(flock.get_flock()[1].v_y == doctest::Approx(5.));
   }
+}
+
+TEST_CASE("Testing the position update function") {
+  project::boid b1{0., 0., 0., 0.};
+  project::boid b2{0., 0., 0., 10.};
+  project::boid b3{0., 0., 10., 0.};
+  project::boid b4{0., 0., 10., 10.};
+  project::boid b5{0., 0., 0., -10.};
+  project::boid b6{0., 0., -10., 0.};
+  project::boid b7{0., 0., -10., -10.};
+  project::boid b1e{0., 0., 0., 0.};
+  project::boid b2e{0., 0.15, 0., 10.};
+  project::boid b3e{0.15, 0., 10., 0.};
+  project::boid b4e{0.15, 0.15, 10., 10.};
+  project::boid b5e{0., -0.15, 0., -10.};
+  project::boid b6e{-0.15, 0., -10., 0.};
+  project::boid b7e{-0.15, -0.15, -10., -10.};
+  project::boids_flock flock{7, 30., 2., 0.5, 0.5, 0.5};
+  flock.addBoid(b1);
+  flock.addBoid(b2);
+  flock.addBoid(b3);
+  flock.addBoid(b4);
+  flock.addBoid(b5);
+  flock.addBoid(b6);
+  flock.addBoid(b7);
+  flock.position_update();
+  const project::boid& result1 = flock.get_flock()[0];
+  const project::boid& result2 = flock.get_flock()[1];
+  const project::boid& result3 = flock.get_flock()[2];
+  const project::boid& result4 = flock.get_flock()[3];
+  const project::boid& result5 = flock.get_flock()[4];
+  const project::boid& result6 = flock.get_flock()[5];
+  const project::boid& result7 = flock.get_flock()[6];
+  CHECK(result1.v_x==b1e.v_x);
+  CHECK(result1.v_y==b1e.v_y);
+  CHECK(result2.v_x==b2e.v_x);
+  CHECK(result2.v_y==b2e.v_y);
+  CHECK(result3.v_x==b3e.v_x);
+  CHECK(result3.v_y==b3e.v_y);
+  CHECK(result4.v_x==b4e.v_x);
+  CHECK(result4.v_y==b4e.v_y);
+  CHECK(result5.v_x==b5e.v_x);
+  CHECK(result5.v_y==b5e.v_y);
+  CHECK(result6.v_x==b6e.v_x);
+  CHECK(result6.v_y==b6e.v_y);
+  CHECK(result7.v_x==b7e.v_x);
+  CHECK(result7.v_y==b7e.v_y);
 }
