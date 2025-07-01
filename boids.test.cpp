@@ -1,5 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "boids.hpp"
+
 #include "doctest.h"
 
 TEST_CASE("Checking the lower distance function") {
@@ -64,6 +65,43 @@ TEST_CASE("Checking the upper distance function") {
     flock.addBoid(b2);
     CHECK(flock.get_upper_distance(b1, b2) == true);
   }
+}
+
+TEST_CASE("Testing the reciprocal_distance functions") {
+  project::boid b1{4., 9., 0., 0.};
+  project::boid b2{-89., 23., 0., 0.};
+  project::boid b3{189., -33., 0., 0.};
+  project::boid b4{10., -10., 0., 0.};
+  project::boid b5{-99., -39., 0., 0.};
+  project::boid b6{0., 0., 0., 0.};
+  project::boids_flock flock{6, 15., 3., 3., 0.2, 0.1};
+  flock.addBoid(b1);
+  flock.addBoid(b2);
+  flock.addBoid(b3);
+  flock.addBoid(b4);
+  flock.addBoid(b5);
+  flock.addBoid(b6);
+
+  SUBCASE("reciprocal_distance_x") {
+    CHECK(flock.get_reciprocal_distance_x(b1, b2) == -93);
+    CHECK(flock.get_reciprocal_distance_x(b1, b3) == 185);
+    CHECK(flock.get_reciprocal_distance_x(b1, b4) == 6);
+    CHECK(flock.get_reciprocal_distance_x(b1, b5) == -103);
+    CHECK(flock.get_reciprocal_distance_x(b1, b6) == -4);
+    CHECK(flock.get_reciprocal_distance_x(b3, b2) == -278);
+    CHECK(flock.get_reciprocal_distance_x(b6, b2) == -89);
+  }
+
+  SUBCASE("reciprocal_distance_y") {
+    CHECK(flock.get_reciprocal_distance_y(b1, b2) == 14);
+    CHECK(flock.get_reciprocal_distance_y(b1, b3) == -42);
+    CHECK(flock.get_reciprocal_distance_y(b1, b4) == -19);
+    CHECK(flock.get_reciprocal_distance_y(b1, b5) == -48);
+    CHECK(flock.get_reciprocal_distance_y(b1, b6) == -9);
+    CHECK(flock.get_reciprocal_distance_y(b3, b2) == 56);
+    CHECK(flock.get_reciprocal_distance_y(b6, b2) == 23);
+  }
+
 }
 
 TEST_CASE("testing the separation rule function") {
@@ -313,92 +351,90 @@ TEST_CASE("Checking the corner force") {
 }
 
 TEST_CASE("Testing the flock_velocity function") {
-
   SUBCASE("Random boids") {
-  project::boid b1{0., 0., 1., 1.};
-  project::boid b2{0., 0., 0.7, 0.9};
-  project::boid b3{0., 0., -4.5, 3.6};
-  project::boid b4{0., 0., -10., 0.};
-  project::boid b5{0., 0., -3., -2.};
-  project::boid b6{0., 0., 0.01, -1.};
-  project::boid b7{0., 0., 2., 0.};
-  project::boid b8{0., 0., 0., 2.};
-  project::boids_flock flock{8, 20., 5., 0., 0., 0.};
-  flock.addBoid(b1);
-  flock.addBoid(b2);
-  flock.addBoid(b3);
-  flock.addBoid(b4);
-  flock.addBoid(b5);
-  flock.addBoid(b6);
-  flock.addBoid(b7);
-  flock.addBoid(b8);
-  CHECK(flock.flock_velocity() == doctest::Approx(1.813207).epsilon(0.01));
+    project::boid b1{0., 0., 1., 1.};
+    project::boid b2{0., 0., 0.7, 0.9};
+    project::boid b3{0., 0., -4.5, 3.6};
+    project::boid b4{0., 0., -10., 0.};
+    project::boid b5{0., 0., -3., -2.};
+    project::boid b6{0., 0., 0.01, -1.};
+    project::boid b7{0., 0., 2., 0.};
+    project::boid b8{0., 0., 0., 2.};
+    project::boids_flock flock{8, 20., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    flock.addBoid(b5);
+    flock.addBoid(b6);
+    flock.addBoid(b7);
+    flock.addBoid(b8);
+    CHECK(flock.flock_velocity() == doctest::Approx(1.813207).epsilon(0.01));
   }
 
   SUBCASE("Boids whose velocities cancel out each other") {
-  project::boid b1{0., 0., 1., 1.};
-  project::boid b2{0., 0., -1., -1.};
-  project::boid b3{0., 0., -4.5, -4.5};
-  project::boid b4{0., 0., 4.5, 4.5};
-  project::boid b5{0., 0., -2., 3.};
-  project::boid b6{0., 0., 2., -3.};
-  project::boid b7{0., 0., 10., 0.};
-  project::boid b8{0., 0., -10., 0.};
-  project::boids_flock flock{8, 20., 5., 0., 0., 0.};
-  flock.addBoid(b1);
-  flock.addBoid(b2);
-  flock.addBoid(b3);
-  flock.addBoid(b4);
-  flock.addBoid(b5);
-  flock.addBoid(b6);
-  flock.addBoid(b7);
-  flock.addBoid(b8);
-  CHECK(flock.flock_velocity() == doctest::Approx(0.000));
+    project::boid b1{0., 0., 1., 1.};
+    project::boid b2{0., 0., -1., -1.};
+    project::boid b3{0., 0., -4.5, -4.5};
+    project::boid b4{0., 0., 4.5, 4.5};
+    project::boid b5{0., 0., -2., 3.};
+    project::boid b6{0., 0., 2., -3.};
+    project::boid b7{0., 0., 10., 0.};
+    project::boid b8{0., 0., -10., 0.};
+    project::boids_flock flock{8, 20., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    flock.addBoid(b5);
+    flock.addBoid(b6);
+    flock.addBoid(b7);
+    flock.addBoid(b8);
+    CHECK(flock.flock_velocity() == doctest::Approx(0.000));
   }
 }
 
 TEST_CASE("Testing the mean velocity function") {
-
-  SUBCASE("Random boids"){
-  project::boid b1{0., 0., 1., 1.};
-  project::boid b2{0., 0., 0.7, 0.9};
-  project::boid b3{0., 0., -4.5, 3.6};
-  project::boid b4{0., 0., -10., 0.};
-  project::boid b5{0., 0., -3., -2.};
-  project::boid b6{0., 0., 0.01, -1.};
-  project::boid b7{0., 0., 2., 0.};
-  project::boid b8{0., 0., 0., 2.};
-  project::boids_flock flock{8, 20., 5., 0., 0., 0.};
-  flock.addBoid(b1);
-  flock.addBoid(b2);
-  flock.addBoid(b3);
-  flock.addBoid(b4);
-  flock.addBoid(b5);
-  flock.addBoid(b6);
-  flock.addBoid(b7);
-  flock.addBoid(b8);
-  CHECK(flock.mean_velocity() == doctest::Approx(3.3658).epsilon(0.01));
+  SUBCASE("Random boids") {
+    project::boid b1{0., 0., 1., 1.};
+    project::boid b2{0., 0., 0.7, 0.9};
+    project::boid b3{0., 0., -4.5, 3.6};
+    project::boid b4{0., 0., -10., 0.};
+    project::boid b5{0., 0., -3., -2.};
+    project::boid b6{0., 0., 0.01, -1.};
+    project::boid b7{0., 0., 2., 0.};
+    project::boid b8{0., 0., 0., 2.};
+    project::boids_flock flock{8, 20., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    flock.addBoid(b5);
+    flock.addBoid(b6);
+    flock.addBoid(b7);
+    flock.addBoid(b8);
+    CHECK(flock.mean_velocity() == doctest::Approx(3.3658).epsilon(0.01));
   }
 
   SUBCASE("Velocities components cancelling out each other") {
-  project::boid b1{0., 0., 1., 1.};
-  project::boid b2{0., 0., -1., -1.};
-  project::boid b3{0., 0., -4.5, -4.5};
-  project::boid b4{0., 0., 4.5, 4.5};
-  project::boid b5{0., 0., -2., 3.};
-  project::boid b6{0., 0., 2., -3.};
-  project::boid b7{0., 0., 10., 0.};
-  project::boid b8{0., 0., -10., 0.};
-  project::boids_flock flock{8, 20., 5., 0., 0., 0.};
-  flock.addBoid(b1);
-  flock.addBoid(b2);
-  flock.addBoid(b3);
-  flock.addBoid(b4);
-  flock.addBoid(b5);
-  flock.addBoid(b6);
-  flock.addBoid(b7);
-  flock.addBoid(b8);
-  CHECK(flock.mean_velocity() == doctest::Approx(5.345931).epsilon(0.01));
+    project::boid b1{0., 0., 1., 1.};
+    project::boid b2{0., 0., -1., -1.};
+    project::boid b3{0., 0., -4.5, -4.5};
+    project::boid b4{0., 0., 4.5, 4.5};
+    project::boid b5{0., 0., -2., 3.};
+    project::boid b6{0., 0., 2., -3.};
+    project::boid b7{0., 0., 10., 0.};
+    project::boid b8{0., 0., -10., 0.};
+    project::boids_flock flock{8, 20., 5., 0., 0., 0.};
+    flock.addBoid(b1);
+    flock.addBoid(b2);
+    flock.addBoid(b3);
+    flock.addBoid(b4);
+    flock.addBoid(b5);
+    flock.addBoid(b6);
+    flock.addBoid(b7);
+    flock.addBoid(b8);
+    CHECK(flock.mean_velocity() == doctest::Approx(5.345931).epsilon(0.01));
   }
 }
 

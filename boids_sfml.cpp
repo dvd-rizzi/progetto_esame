@@ -49,7 +49,7 @@ void draw(const std::vector<project::boid>& flock) {
     boid_sprite.setPosition(static_cast<float>(a.x_position),
                             static_cast<float>(a.y_position));
     boid_sprite.setOrigin(static_cast<float>(boid_texture.getSize().x) / 2.f,
-                          static_cast<float>(boid_texture.getSize().x) / 2.f);
+                          static_cast<float>(boid_texture.getSize().y) / 2.f);
     boid_sprite.setScale(0.009f, 0.009f);
     window.draw(boid_sprite);
   }
