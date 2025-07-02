@@ -1,9 +1,7 @@
 #include "boids_sfml.hpp"
-
 #include <stdexcept>
-#include <vector>
-
 #include "boids.hpp"
+
 namespace boids_display {
 static project::boids_flock* flock_ptr = nullptr;
 sf::RenderWindow window;

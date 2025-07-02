@@ -1,11 +1,8 @@
 #include "boids.hpp"
-
 #include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <random>
-#include <stdexcept>
-#include <thread>
 
 namespace project {
 
