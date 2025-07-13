@@ -40,7 +40,7 @@ A seconda della scelta dei parametri, la simulazione potrà comportarsi in modo 
 2. 10 < **d_** < 15>
 3. 2 < **ds_** < 4
 4. 2 < **s_** < 5
-5. 0.2 < **a_** 0.5
+5. 0.2 < **a_** < 0.5
 6. 0.05 < **c_** < 0.1
 
 
