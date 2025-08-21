@@ -11,13 +11,22 @@ struct boid {
   double v_y;
 };
 
+bool operator!=(boid a, boid b);
+
 struct module {
   double x;
   double y;
 };
 
+module operator+(module a, module b);
 
-bool operator!=(boid a, boid b);
+module operator-(module a, module b);
+
+module operator*(double a, module b);
+
+module operator/(module a, double b);
+
+bool operator==(module a, module b);
 
 class boids_flock {
   std::vector<boid> flock_;
@@ -32,13 +41,9 @@ class boids_flock {
 
   bool lower_distance(boid const& a, boid const& b) const;
 
-  double reciprocal_distance_x(boid const& a, boid const& b) const;
+  module reciprocal_distance(boid const& a, boid const& b) const;
 
-  double reciprocal_distance_y(boid const& a, boid const& b) const;
-
-  double center_of_mass_x_nearby(boid const& a) const;
-
-  double center_of_mass_y_nearby(boid const& a) const;
+  module center_of_mass_nearby(boid const& a) const;
 
  public:
   boids_flock(int N, double d, double ds, double s, double a, double c) : N_{N}, d_{d}, ds_{ds}, s_{s}, a_{a}, c_{c} {}
@@ -49,13 +54,9 @@ class boids_flock {
 
   bool get_lower_distance(boid const& a, boid const& b) const;
 
-  double get_reciprocal_distance_x(boid const& a, boid const& b) const;
+  module get_reciprocal_distance(boid const& a, boid const& b) const;
 
-  double get_reciprocal_distance_y(boid const& a, boid const& b) const;
-
-  double get_center_of_mass_x_nearby(boid const& a) const;
-
-  double get_center_of_mass_y_nearby(boid const& a) const;
+  module get_center_of_mass_nearby(boid const& a) const;
 
   static boid boid_initialize();
 
@@ -63,17 +64,11 @@ class boids_flock {
 
   void addBoid(boid const& a);
 
-  double separation_rule_x(boid const& a) const;
+  module separation_rule(boid const& a) const;
 
-  double separation_rule_y(boid const& a) const;
+  module alignment_rule(boid const& a) const;
 
-  double alignment_rule_x(boid const& a) const;
-
-  double alignment_rule_y(boid const& a) const;
-
-  double cohesion_rule_x(boid const& a) const;
-
-  double cohesion_rule_y(boid const& a) const;
+  module cohesion_rule(boid const& a) const;
 
   void corner_force();
 
@@ -85,9 +80,9 @@ class boids_flock {
 
   double mean_distance();
 
-  module external_effects(boid const& a);
+  module external(boid const& a);
 
-  void velocities_update();
+  void velocities();
 
   void position_update();
 
