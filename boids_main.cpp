@@ -9,32 +9,32 @@
 int main() {
   try {
     int N_;
-    std::cout << "inserisci il numero di boid: " << '\n';
+    std::cout << "Insert the number of boids (N): " << '\n';
     std::cin >> N_;
     assert(N_ > 1);
 
     double d_;
-    std::cout << "inserisci la distanza massima di interazione tra i boid: " << '\n';
+    std::cout << "Insert the maximum distance of interaction (d): " << '\n';
     std::cin >> d_;
     assert(d_ > 0);
 
     double ds_;
-    std::cout << "inserisci la distanza minima tra i boid: " << '\n';
+    std::cout << "Insert the minimum distance between boids (ds): " << '\n';
     std::cin >> ds_;
     assert(0 < ds_ && ds_ < d_);
 
     double s_;
-    std::cout << "inserisci il fattore di separazione: " << '\n';
+    std::cout << "Insert the separation factor (s): " << '\n';
     std::cin >> s_;
     assert(s_ > 0);
 
     double a_;
-    std::cout << "inserisci il fattore di allineamento (<1): " << '\n';
+    std::cout << "Insert the alignement factor (0 < a < 1): " << '\n';
     std::cin >> a_;
     assert(0 < a_ && a_ < 1);
 
     double c_;
-    std::cout << "inserisci il fattore di coesione: " << '\n';
+    std::cout << "Insert the cohesion factor (c): " << '\n';
     std::cin >> c_;
     assert(c_ > 0);
 

@@ -36,12 +36,12 @@ All'avvio del programma sarà necessario inserire dei parametri per la formazion
 6. Il **fattore di coesione (c_)** che determina l'intensità dell'attrazione del boid verso il centro di massa dei boids limitrofi.
 
 A seconda della scelta dei parametri, la simulazione potrà comportarsi in modo differente, rendendo più o meno apprezzabile la formazione dello stormo. Per un'inizializzazione ottimale si consiglia di scegliere i parametri nei seguenti range:
-1. **N_** < 80
+1. 10 < **N_** < 100
 2. 10 < **d_** < 15>
 3. 2 < **ds_** < 4
-4. 3 < **s_** < 5
-5. 0.2 < **a_** 0.6
-6. **c_** < 0.15
+4. 2 < **s_** < 5
+5. 0.2 < **a_** < 0.5
+6. 0.05 < **c_** < 0.1
 
 
 
