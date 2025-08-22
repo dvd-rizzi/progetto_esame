@@ -525,7 +525,7 @@ TEST_CASE("Testing the velocities update function") {
     project::boids_flock flock{2, 20., 2., 0.5, 0.5, 0.5};
     flock.addBoid(b1);
     flock.addBoid(b2);
-    flock.velocities();
+    flock.velocities_update();
     CHECK(flock.get_flock()[0].v_x == doctest::Approx(9.));
     CHECK(flock.get_flock()[0].v_y == doctest::Approx(13.));
     CHECK(flock.get_flock()[1].v_x == doctest::Approx(9.));

@@ -205,19 +205,19 @@ double boids_flock::mean_distance() {
   return sum_distance_modules / number_distances;
 }
 
-module boids_flock::external(boid const& a) {
+module boids_flock::external_effects(boid const& a) {
   module v{0., 0.};
   v = v + boids_flock::alignment_rule(a) + boids_flock::cohesion_rule(a) +
       boids_flock::separation_rule(a);
   return v;
 }
 
-void boids_flock::velocities() {
+void boids_flock::velocities_update() {
   std::vector<module> result;
   const double min_speed{10.};
   const double max_speed{20.};
   for (auto& a : flock_) {
-    result.push_back(boids_flock::external(a));
+    result.push_back(boids_flock::external_effects(a));
   }
   long unsigned int i = 0;
   for (auto& a : flock_) {

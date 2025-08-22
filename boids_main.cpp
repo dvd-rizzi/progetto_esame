@@ -65,7 +65,7 @@ int main() {
           flock.addBoid(NewBoid);
         }
       }
-      flock.velocities();
+      flock.velocities_update();
       flock.position_update();
       flock.corner_force();
       boids_display::draw(flock.get_flock());

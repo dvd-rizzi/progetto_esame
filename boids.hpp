@@ -80,9 +80,9 @@ class boids_flock {
 
   double mean_distance();
 
-  module external(boid const& a);
+  module external_effects(boid const& a);
 
-  void velocities();
+  void velocities_update();
 
   void position_update();
 
