@@ -94,75 +94,70 @@ TEST_CASE("Testing the reciprocal_distance functions") {
   flock.addBoid(b4);
   flock.addBoid(b5);
   flock.addBoid(b6);
+  project::module expected12{-93.,14.};
+  project::module expected13{185.,-42.};
+  project::module expected14{6.,-19.};
+  project::module expected15{-103.,-48.};
+  project::module expected16{-4.,-9.};
+  project::module expected32{-278.,56.};
+  project::module expected62{-89.,23.};
 
-  SUBCASE("reciprocal_distance_x") {
-    CHECK(flock.get_reciprocal_distance_x(b1, b2) == -93);
-    CHECK(flock.get_reciprocal_distance_x(b1, b3) == 185);
-    CHECK(flock.get_reciprocal_distance_x(b1, b4) == 6);
-    CHECK(flock.get_reciprocal_distance_x(b1, b5) == -103);
-    CHECK(flock.get_reciprocal_distance_x(b1, b6) == -4);
-    CHECK(flock.get_reciprocal_distance_x(b3, b2) == -278);
-    CHECK(flock.get_reciprocal_distance_x(b6, b2) == -89);
-  }
-
-  SUBCASE("reciprocal_distance_y") {
-    CHECK(flock.get_reciprocal_distance_y(b1, b2) == 14);
-    CHECK(flock.get_reciprocal_distance_y(b1, b3) == -42);
-    CHECK(flock.get_reciprocal_distance_y(b1, b4) == -19);
-    CHECK(flock.get_reciprocal_distance_y(b1, b5) == -48);
-    CHECK(flock.get_reciprocal_distance_y(b1, b6) == -9);
-    CHECK(flock.get_reciprocal_distance_y(b3, b2) == 56);
-    CHECK(flock.get_reciprocal_distance_y(b6, b2) == 23);
-  }
+  CHECK(flock.get_reciprocal_distance(b1,b2) == expected12);
+  CHECK(flock.get_reciprocal_distance(b1,b3) == expected13);
+  CHECK(flock.get_reciprocal_distance(b1,b4) == expected14);
+  CHECK(flock.get_reciprocal_distance(b1,b5) == expected15);
+  CHECK(flock.get_reciprocal_distance(b1,b6) == expected16);
+  CHECK(flock.get_reciprocal_distance(b3,b2) == expected32);
+  CHECK(flock.get_reciprocal_distance(b6,b2) == expected62);
 }
 
 TEST_CASE("testing the separation rule function") {
   SUBCASE("two boids with same y position") {
     project::boid b1{0., 2., 0., 0.};
     project::boid b2{2., 2., 0., 0.};
+    project::module expected1{-4.,0.};
+    project::module expected2{4.,0.};
     project::boids_flock flock{2, 20., 3., 2., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
-    CHECK(flock.separation_rule_y(b1) == doctest::Approx(0));
-    CHECK(flock.separation_rule_x(b1) == doctest::Approx(-4));
-    CHECK(flock.separation_rule_y(b2) == doctest::Approx(0));
-    CHECK(flock.separation_rule_x(b2) == doctest::Approx(4));
+    CHECK(flock.separation_rule(b1) == expected1);
+    CHECK(flock.separation_rule(b2) == expected2);
   }
 
   SUBCASE("two boids with same x position") {
     project::boid b1{2., 0., 0., 0.};
     project::boid b2{2., 2., 0., 0.};
+    project::module expected1{0.,-4.};
+    project::module expected2{0.,4.};
     project::boids_flock flock{2, 20., 3., 2., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
-    CHECK(flock.separation_rule_y(b1) == doctest::Approx(-4));
-    CHECK(flock.separation_rule_x(b1) == doctest::Approx(0));
-    CHECK(flock.separation_rule_y(b2) == doctest::Approx(4));
-    CHECK(flock.separation_rule_x(b2) == doctest::Approx(0));
+    CHECK(flock.separation_rule(b1) == expected1);
+    CHECK(flock.separation_rule(b2) == expected2);
   }
 
   SUBCASE("two boids with different x and y values") {
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{4., 3., 0., 0.};
+    project::module expected1{-12.,-9.};
+    project::module expected2{12.,9.};
     project::boids_flock flock{2, 20., 6., 3., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
-    CHECK(flock.separation_rule_y(b1) == doctest::Approx(-9));
-    CHECK(flock.separation_rule_x(b1) == doctest::Approx(-12));
-    CHECK(flock.separation_rule_y(b2) == doctest::Approx(9));
-    CHECK(flock.separation_rule_x(b2) == doctest::Approx(12));
+    CHECK(flock.separation_rule(b1) == expected1);
+    CHECK(flock.separation_rule(b2) == expected2);
   }
 
   SUBCASE("two boids exactly on lower distance") {
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{4., 3., 0., 0.};
+    project::module expected1{-12.,-9.};
+    project::module expected2{12.,9.};
     project::boids_flock flock{2, 20., 5., 3., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
-    CHECK(flock.separation_rule_y(b1) == doctest::Approx(-9));
-    CHECK(flock.separation_rule_x(b1) == doctest::Approx(-12));
-    CHECK(flock.separation_rule_y(b2) == doctest::Approx(9));
-    CHECK(flock.separation_rule_x(b2) == doctest::Approx(12));
+    CHECK(flock.separation_rule(b1) == expected1);
+    CHECK(flock.separation_rule(b2) == expected2);
   }
 }
 
@@ -171,68 +166,65 @@ TEST_CASE("Testing the alignment rule function") {
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{10., 10., 0., 0.};
     project::boid b3{14., 3., 0., 0.};
+    project::module expected{0.,0.};
     project::boids_flock flock{3, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    CHECK(flock.alignment_rule_x(b1) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b1) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_x(b2) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b2) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_x(b3) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b3) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule(b1) == expected);
+    CHECK(flock.alignment_rule(b2) == expected);
+    CHECK(flock.alignment_rule(b3) == expected);
   }
 
   SUBCASE("Two boids with same velocities") {
     project::boid b1{0., 0., 5., 10.};
     project::boid b2{10., 0., 5., 10.};
+    project::module expected{0.,0.};
     project::boids_flock flock{3, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
-    CHECK(flock.alignment_rule_x(b1) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b1) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_x(b2) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b2) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule(b1) == expected);
+    CHECK(flock.alignment_rule(b2) == expected);
   }
 
   SUBCASE("Two boids, one initially still") {
     project::boid b1{10., 10., -5., -5.};
     project::boid b2{20., 0., 0., 0.};
+    project::module expected1{2.5,2.5};
+    project::module expected2{-2.5,-2.5};
     project::boids_flock flock{2, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
-    CHECK(flock.alignment_rule_x(b1) == doctest::Approx(2.5));
-    CHECK(flock.alignment_rule_y(b1) == doctest::Approx(2.5));
-    CHECK(flock.alignment_rule_x(b2) == doctest::Approx(-2.5));
-    CHECK(flock.alignment_rule_y(b2) == doctest::Approx(-2.5));
+    CHECK(flock.alignment_rule(b1) == expected1);
+    CHECK(flock.alignment_rule(b2) == expected2);
   }
 
   SUBCASE("Two boids with opposite velocities") {
     project::boid b1{10., 0., 0., 10.};
     project::boid b2{0., 0., 0., -10.};
+    project::module expected1{0.,-10.};
+    project::module expected2{0.,10.};
     project::boids_flock flock{2, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
-    CHECK(flock.alignment_rule_x(b1) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b1) == doctest::Approx(-10.));
-    CHECK(flock.alignment_rule_x(b2) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b2) == doctest::Approx(10.));
+    CHECK(flock.alignment_rule(b1) == expected1);
+    CHECK(flock.alignment_rule(b2) == expected2);
   }
 
   SUBCASE("Three boids, one initially still") {
     project::boid b1{-5., 5., 10., 10.};
     project::boid b2{0., 0., 0., 0.};
     project::boid b3{5., -5., -10., -10.};
+    project::module expected1{-7.5,-7.5};
+    project::module expected2{0.,0.};
+    project::module expected3{7.5,7.5};
     project::boids_flock flock{3, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    CHECK(flock.alignment_rule_x(b1) == doctest::Approx(-7.5));
-    CHECK(flock.alignment_rule_y(b1) == doctest::Approx(-7.5));
-    CHECK(flock.alignment_rule_x(b2) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b2) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_x(b3) == doctest::Approx(7.5));
-    CHECK(flock.alignment_rule_y(b3) == doctest::Approx(7.5));
+    CHECK(flock.alignment_rule(b1) == expected1);
+    CHECK(flock.alignment_rule(b2) == expected2);
+    CHECK(flock.alignment_rule(b3) == expected3);
   }
 
   SUBCASE("Testing the return when boids are too far apart") {
@@ -240,19 +232,16 @@ TEST_CASE("Testing the alignment rule function") {
     project::boid b2{100., -100., 10., -10.};
     project::boid b3{-100., 100., -10., 10.};
     project::boid b4{-100., -100., -10., -10.};
+    project::module expected{0.,0.};
     project::boids_flock flock{4, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
-    CHECK(flock.alignment_rule_x(b1) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b1) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_x(b2) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b2) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_x(b3) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b3) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_x(b4) == doctest::Approx(0.));
-    CHECK(flock.alignment_rule_y(b4) == doctest::Approx(0.));
+    CHECK(flock.alignment_rule(b1) == expected);
+    CHECK(flock.alignment_rule(b2) == expected);
+    CHECK(flock.alignment_rule(b3) == expected);
+    CHECK(flock.alignment_rule(b4) == expected);
   }
 }
 
@@ -261,14 +250,12 @@ TEST_CASE("testing the center of mass function") {
     project::boid b1{1., 1., 0., 0.};
     project::boid b2{4., -3., 0., 0.};
     project::boid b3{-3., 6., 0., 0.};
+    project::module expected{0.5,1.5};
     project::boids_flock flock{3, 20., 0.5, 0., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    CHECK(flock.get_center_of_mass_x_nearby(b1) ==
-          doctest::Approx(0.500).epsilon(0.01));
-    CHECK(flock.get_center_of_mass_y_nearby(b1) ==
-          doctest::Approx(1.500).epsilon(0.01));
+    CHECK(flock.get_center_of_mass_nearby(b1) == expected);
   }
 
   SUBCASE("five boids") {
@@ -277,14 +264,14 @@ TEST_CASE("testing the center of mass function") {
     project::boid b3{-1., 9., 0., 0.};
     project::boid b4{-10., 0., 0., 0.};
     project::boid b5{2., 4., 0., 0.};
+    project::module expected{-0.75,2.5};
     project::boids_flock flock{5, 20., 5., 0., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
     flock.addBoid(b5);
-    CHECK(flock.get_center_of_mass_x_nearby(b1) == doctest::Approx(-0.750));
-    CHECK(flock.get_center_of_mass_y_nearby(b1) == doctest::Approx(2.5));
+    CHECK(flock.get_center_of_mass_nearby(b1) == expected);
   }
 }
 
@@ -293,16 +280,16 @@ TEST_CASE("Checking the cohesion rule") {
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{4., 0., 0., 0.};
     project::boid b3{2., 2., 0., 0.};
+    project::module expected1{6.,2.};
+    project::module expected2{-6.,2.};
+    project::module expected3{0.,-4.};
     project::boids_flock flock{3, 20., 2., 0., 0., 2.};
     flock.addBoid(b1);
     flock.addBoid(b2);
     flock.addBoid(b3);
-    CHECK(flock.cohesion_rule_x(b1) == doctest::Approx(6));
-    CHECK(flock.cohesion_rule_y(b1) == doctest::Approx(2));
-    CHECK(flock.cohesion_rule_x(b2) == doctest::Approx(-6));
-    CHECK(flock.cohesion_rule_y(b2) == doctest::Approx(2));
-    CHECK(flock.cohesion_rule_x(b3) == doctest::Approx(0));
-    CHECK(flock.cohesion_rule_y(b3) == doctest::Approx(-4));
+    CHECK(flock.cohesion_rule(b1) == expected1);
+    CHECK(flock.cohesion_rule(b2) == expected2);
+    CHECK(flock.cohesion_rule(b3) == expected3);
   }
 
   SUBCASE("four boids in different quadrants") {
@@ -315,14 +302,14 @@ TEST_CASE("Checking the cohesion rule") {
     flock.addBoid(b2);
     flock.addBoid(b3);
     flock.addBoid(b4);
-    CHECK(flock.cohesion_rule_x(b1) == doctest::Approx(-10.67).epsilon(0.01));
-    CHECK(flock.cohesion_rule_y(b1) == doctest::Approx(-10.67).epsilon(0.01));
-    CHECK(flock.cohesion_rule_x(b2) == doctest::Approx(10.67).epsilon(0.01));
-    CHECK(flock.cohesion_rule_y(b2) == doctest::Approx(-10.67).epsilon(0.01));
-    CHECK(flock.cohesion_rule_x(b3) == doctest::Approx(10.67).epsilon(0.01));
-    CHECK(flock.cohesion_rule_y(b3) == doctest::Approx(10.67).epsilon(0.01));
-    CHECK(flock.cohesion_rule_x(b4) == doctest::Approx(-10.67).epsilon(0.01));
-    CHECK(flock.cohesion_rule_y(b4) == doctest::Approx(10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule(b1).x == doctest::Approx(-10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule(b1).y == doctest::Approx(-10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule(b2).x == doctest::Approx(10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule(b2).y == doctest::Approx(-10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule(b3).x == doctest::Approx(10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule(b3).y == doctest::Approx(10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule(b4).x == doctest::Approx(-10.67).epsilon(0.01));
+    CHECK(flock.cohesion_rule(b4).y == doctest::Approx(10.67).epsilon(0.01));
   }
 }
 
@@ -538,7 +525,7 @@ TEST_CASE("Testing the velocities update function") {
     project::boids_flock flock{2, 20., 2., 0.5, 0.5, 0.5};
     flock.addBoid(b1);
     flock.addBoid(b2);
-    flock.velocities_update();
+    flock.velocities();
     CHECK(flock.get_flock()[0].v_x == doctest::Approx(9.));
     CHECK(flock.get_flock()[0].v_y == doctest::Approx(13.));
     CHECK(flock.get_flock()[1].v_x == doctest::Approx(9.));

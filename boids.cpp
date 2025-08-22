@@ -21,6 +21,26 @@ bool operator!=(boid a, boid b) {
          a.v_x != b.v_x || a.v_y != b.v_y;
 }
 
+module operator+(module a, module b) {
+  return {a.x+b.x,a.y+b.y};
+}
+
+module operator-(module a, module b){
+  return {a.x-b.x,a.y-b.y};
+}
+
+module operator*(double a, module b){
+  return {a*b.x,a*b.y};
+}
+
+module operator/(module a, double b){
+  return {a.x/b,a.y/b};
+}
+
+bool operator==(module a, module b) {
+  return (a.x==b.x && a.y==b.y);
+}
+
 bool boids_flock::upper_distance(boid const& a, boid const& b) const {
   double distance;
   distance = std::sqrt(std::pow((a.x_position - b.x_position), 2) +
@@ -43,61 +63,34 @@ bool boids_flock::get_lower_distance(boid const& a, boid const& b) const {
   return boids_flock::lower_distance(a, b);
 };
 
-double boids_flock::reciprocal_distance_x(boid const& a, boid const& b) const {
-  return b.x_position - a.x_position;
+module boids_flock::reciprocal_distance(boid const& a, boid const& b) const {
+  return {b.x_position-a.x_position,b.y_position-a.y_position};
 }
 
-double boids_flock::get_reciprocal_distance_x(boid const& a,
-                                              boid const& b) const {
-  return boids_flock::reciprocal_distance_x(a, b);
-};
-
-double boids_flock::reciprocal_distance_y(boid const& a, boid const& b) const {
-  return b.y_position - a.y_position;
+module boids_flock::get_reciprocal_distance(boid const& a, boid const& b) const {
+  return boids_flock::reciprocal_distance(a,b);
 }
 
-double boids_flock::get_reciprocal_distance_y(boid const& a,
-                                              boid const& b) const {
-  return boids_flock::reciprocal_distance_y(a, b);
-};
 
-double boids_flock::center_of_mass_x_nearby(boid const& a) const {
-  double sum{0.};
+module boids_flock::center_of_mass_nearby(boid const& a) const {
+  module sum{0.,0.};
   int nearby_boids{0};
   for (auto const& b : flock_) {
     if (lower_distance(a, b) == true && upper_distance(a, b) == true) {
-      sum += b.x_position;
+      sum.x += b.x_position;
+      sum.y += b.y_position;
       nearby_boids += 1;
     }
   }
   if (nearby_boids == 0) {
-    return a.x_position;
+    return {a.x_position, a.y_position};
   };
-  return sum / nearby_boids;
+  return {sum.x/nearby_boids,sum.y/nearby_boids};
 }
 
-double boids_flock::get_center_of_mass_x_nearby(boid const& a) const {
-  return boids_flock::center_of_mass_x_nearby(a);
-};
-
-double boids_flock::center_of_mass_y_nearby(boid const& a) const {
-  double sum{0.};
-  int nearby_boids{0};
-  for (auto const& b : flock_) {
-    if (lower_distance(a, b) == true && upper_distance(a, b) == true) {
-      sum += b.y_position;
-      nearby_boids += 1;
-    }
-  }
-  if (nearby_boids == 0) {
-    return a.y_position;
-  };
-  return sum / nearby_boids;
+module boids_flock::get_center_of_mass_nearby(boid const& a) const {
+  return boids_flock::center_of_mass_nearby(a);
 }
-
-double boids_flock::get_center_of_mass_y_nearby(boid const& a) const {
-  return boids_flock::center_of_mass_y_nearby(a);
-};
 
 boid boids_flock::boid_initialize() {
   double theta = angle(eng);
@@ -120,70 +113,48 @@ void boids_flock::addBoid(boid const& a) {
   flock_.push_back(a);
 }
 
-double boids_flock::separation_rule_x(boid const& a) const {
-  double v_1x{0.};
+
+module boids_flock::separation_rule(boid const& a) const{
+  module v_1{0.,0.};
   for (auto const& b : flock_) {
     if (a != b && lower_distance(a, b) == false &&
         upper_distance(a, b) == true) {
-      v_1x += reciprocal_distance_x(a, b);
+      v_1 = v_1 + reciprocal_distance(a, b);
     }
   }
-  return -s_ * v_1x;
+  return -s_ * v_1;
 }
 
-double boids_flock::separation_rule_y(boid const& a) const {
-  double v_1y{0.};
-  for (auto const& b : flock_) {
-    if (a != b && lower_distance(a, b) == false &&
-        upper_distance(a, b) == true) {
-      v_1y += reciprocal_distance_y(a, b);
-    }
-  }
-  return -s_ * v_1y;
-}
-
-double boids_flock::alignment_rule_x(boid const& a) const {
-  double v_2x{0.};
-  double sum_vx{0.};
+module boids_flock::alignment_rule(boid const& a) const{
+  module v_2{0.,0.};
+  module sum_v{0.,0.};
   int nearby_boids{0};
   for (auto const& b : flock_) {
     if (a != b && lower_distance(a, b) == true &&
         upper_distance(a, b) == true) {
-      sum_vx += b.v_x;
+      sum_v.x += b.v_x;
+      sum_v.y += b.v_y;
       nearby_boids += 1;
     }
   }
   if (nearby_boids == 0) {
+<<<<<<< HEAD
     return 0;
   }
   v_2x = (sum_vx / nearby_boids) - a.v_x;
   return a_ * v_2x;
-}
-
-double boids_flock::alignment_rule_y(boid const& a) const {
-  double v_2y{0.};
-  double sum_vy{0.};
-  int nearby_boids{0};
-  for (auto const& b : flock_) {
-    if (a != b && lower_distance(a, b) == true &&
-        upper_distance(a, b) == true) {
-      sum_vy += b.v_y;
-      nearby_boids += 1;
-    }
-  }
-  if (nearby_boids == 0) {
-    return 0;
+=======
+    return {0.,0.};
   };
-  v_2y = (sum_vy / nearby_boids) - a.v_y;
-  return a_ * v_2y;
+  module av{a.v_x,a.v_y};
+  v_2 = (sum_v / nearby_boids) - av;
+  return a_ * v_2;
+>>>>>>> d59b754f39be0e7f1b18db3d97e09f7b54ab28ad
 }
 
-double boids_flock::cohesion_rule_x(boid const& a) const {
-  return c_ * (center_of_mass_x_nearby(a) - a.x_position);
-}
-
-double boids_flock::cohesion_rule_y(boid const& a) const {
-  return c_ * (center_of_mass_y_nearby(a) - a.y_position);
+module boids_flock::cohesion_rule(boid const& a) const {
+  module ap{a.x_position,a.y_position};
+  return c_ * (center_of_mass_nearby(a) - ap);
 }
 
 void boids_flock::corner_force() {
@@ -244,31 +215,28 @@ double boids_flock::mean_distance() {
     for (auto const& b : flock_) {
       if (a != b) {
         sum_distance_modules +=
-            std::sqrt(std::pow(reciprocal_distance_x(a, b), 2) +
-                      std::pow(reciprocal_distance_y(a, b), 2));
+            std::sqrt(std::pow(reciprocal_distance(a, b).x, 2) +
+                      std::pow(reciprocal_distance(a, b).y, 2));
       }
     }
   }
   return sum_distance_modules / number_distances;
 }
 
-module boids_flock::external_effects(boid const& a) {
-  double vx{0.};
-  double vy{0.};
-  vx += (boids_flock::alignment_rule_x(a) + boids_flock::cohesion_rule_x(a) +
-         boids_flock::separation_rule_x(a));
-  vy += (boids_flock::alignment_rule_y(a) + boids_flock::cohesion_rule_y(a) +
-         boids_flock::separation_rule_y(a));
 
-  return {vx, vy};
+module boids_flock::external(boid const& a) {
+  module v{0.,0.};
+  v= v+boids_flock::alignment_rule(a)+boids_flock::cohesion_rule(a)+boids_flock::separation_rule(a);
+  return v;
 }
 
-void boids_flock::velocities_update() {
+
+void boids_flock::velocities() {
   std::vector<module> result;
   const double min_speed{10.};
   const double max_speed{20.};
   for (auto& a : flock_) {
-    result.push_back(boids_flock::external_effects(a));
+    result.push_back(boids_flock::external(a));
   }
   long unsigned int i = 0;
   for (auto& a : flock_) {
