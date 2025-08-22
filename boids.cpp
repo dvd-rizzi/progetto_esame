@@ -1,4 +1,5 @@
 #include "boids.hpp"
+
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -154,7 +155,7 @@ double boids_flock::alignment_rule_x(boid const& a) const {
   }
   if (nearby_boids == 0) {
     return 0;
-  };
+  }
   v_2x = (sum_vx / nearby_boids) - a.v_x;
   return a_ * v_2x;
 }
@@ -203,9 +204,11 @@ double boids_flock::flock_velocity() {
   double mean_vx{0.};
   double mean_vy{0.};
   double v{0.};
-  sum_vx = std::accumulate(flock_.begin(), flock_.end(), 0.,
+  sum_vx =
+      std::accumulate(flock_.begin(), flock_.end(), 0.,
                       [](double acc, boid const& b) { return acc + b.v_x; });
-  sum_vy = std::accumulate(flock_.begin(), flock_.end(), 0.,
+  sum_vy =
+      std::accumulate(flock_.begin(), flock_.end(), 0.,
                       [](double acc, boid const& b) { return acc + b.v_y; });
   mean_vx = sum_vx / N_;
   mean_vy = sum_vy / N_;
