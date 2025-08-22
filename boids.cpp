@@ -62,7 +62,6 @@ bool boids_flock::get_lower_distance(boid const& a, boid const& b) const {
   return boids_flock::lower_distance(a, b);
 };
 
-//funzione nuova da non eliminare, è bellina e carina e non dipende da x e y
 module boids_flock::reciprocal_distance(boid const& a, boid const& b) const {
   return {b.x_position-a.x_position,b.y_position-a.y_position};
 }
