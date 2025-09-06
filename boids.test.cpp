@@ -94,13 +94,13 @@ TEST_CASE("Testing the reciprocal_distance functions") {
   flock.addBoid(b4);
   flock.addBoid(b5);
   flock.addBoid(b6);
-  project::module expected12{-93.,14.};
-  project::module expected13{185.,-42.};
-  project::module expected14{6.,-19.};
-  project::module expected15{-103.,-48.};
-  project::module expected16{-4.,-9.};
-  project::module expected32{-278.,56.};
-  project::module expected62{-89.,23.};
+  project::components expected12{-93.,14.};
+  project::components expected13{185.,-42.};
+  project::components expected14{6.,-19.};
+  project::components expected15{-103.,-48.};
+  project::components expected16{-4.,-9.};
+  project::components expected32{-278.,56.};
+  project::components expected62{-89.,23.};
 
   CHECK(flock.get_reciprocal_distance(b1,b2) == expected12);
   CHECK(flock.get_reciprocal_distance(b1,b3) == expected13);
@@ -115,8 +115,8 @@ TEST_CASE("testing the separation rule function") {
   SUBCASE("two boids with same y position") {
     project::boid b1{0., 2., 0., 0.};
     project::boid b2{2., 2., 0., 0.};
-    project::module expected1{-4.,0.};
-    project::module expected2{4.,0.};
+    project::components expected1{-4.,0.};
+    project::components expected2{4.,0.};
     project::boids_flock flock{2, 20., 3., 2., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -127,8 +127,8 @@ TEST_CASE("testing the separation rule function") {
   SUBCASE("two boids with same x position") {
     project::boid b1{2., 0., 0., 0.};
     project::boid b2{2., 2., 0., 0.};
-    project::module expected1{0.,-4.};
-    project::module expected2{0.,4.};
+    project::components expected1{0.,-4.};
+    project::components expected2{0.,4.};
     project::boids_flock flock{2, 20., 3., 2., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -139,8 +139,8 @@ TEST_CASE("testing the separation rule function") {
   SUBCASE("two boids with different x and y values") {
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{4., 3., 0., 0.};
-    project::module expected1{-12.,-9.};
-    project::module expected2{12.,9.};
+    project::components expected1{-12.,-9.};
+    project::components expected2{12.,9.};
     project::boids_flock flock{2, 20., 6., 3., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -151,8 +151,8 @@ TEST_CASE("testing the separation rule function") {
   SUBCASE("two boids exactly on lower distance") {
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{4., 3., 0., 0.};
-    project::module expected1{-12.,-9.};
-    project::module expected2{12.,9.};
+    project::components expected1{-12.,-9.};
+    project::components expected2{12.,9.};
     project::boids_flock flock{2, 20., 5., 3., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -166,7 +166,7 @@ TEST_CASE("Testing the alignment rule function") {
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{10., 10., 0., 0.};
     project::boid b3{14., 3., 0., 0.};
-    project::module expected{0.,0.};
+    project::components expected{0.,0.};
     project::boids_flock flock{3, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -179,7 +179,7 @@ TEST_CASE("Testing the alignment rule function") {
   SUBCASE("Two boids with same velocities") {
     project::boid b1{0., 0., 5., 10.};
     project::boid b2{10., 0., 5., 10.};
-    project::module expected{0.,0.};
+    project::components expected{0.,0.};
     project::boids_flock flock{3, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -190,8 +190,8 @@ TEST_CASE("Testing the alignment rule function") {
   SUBCASE("Two boids, one initially still") {
     project::boid b1{10., 10., -5., -5.};
     project::boid b2{20., 0., 0., 0.};
-    project::module expected1{2.5,2.5};
-    project::module expected2{-2.5,-2.5};
+    project::components expected1{2.5,2.5};
+    project::components expected2{-2.5,-2.5};
     project::boids_flock flock{2, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -202,8 +202,8 @@ TEST_CASE("Testing the alignment rule function") {
   SUBCASE("Two boids with opposite velocities") {
     project::boid b1{10., 0., 0., 10.};
     project::boid b2{0., 0., 0., -10.};
-    project::module expected1{0.,-10.};
-    project::module expected2{0.,10.};
+    project::components expected1{0.,-10.};
+    project::components expected2{0.,10.};
     project::boids_flock flock{2, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -215,9 +215,9 @@ TEST_CASE("Testing the alignment rule function") {
     project::boid b1{-5., 5., 10., 10.};
     project::boid b2{0., 0., 0., 0.};
     project::boid b3{5., -5., -10., -10.};
-    project::module expected1{-7.5,-7.5};
-    project::module expected2{0.,0.};
-    project::module expected3{7.5,7.5};
+    project::components expected1{-7.5,-7.5};
+    project::components expected2{0.,0.};
+    project::components expected3{7.5,7.5};
     project::boids_flock flock{3, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -232,7 +232,7 @@ TEST_CASE("Testing the alignment rule function") {
     project::boid b2{100., -100., 10., -10.};
     project::boid b3{-100., 100., -10., 10.};
     project::boid b4{-100., -100., -10., -10.};
-    project::module expected{0.,0.};
+    project::components expected{0.,0.};
     project::boids_flock flock{4, 20., 2., 0., 0.5, 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -250,7 +250,7 @@ TEST_CASE("testing the center of mass function") {
     project::boid b1{1., 1., 0., 0.};
     project::boid b2{4., -3., 0., 0.};
     project::boid b3{-3., 6., 0., 0.};
-    project::module expected{0.5,1.5};
+    project::components expected{0.5,1.5};
     project::boids_flock flock{3, 20., 0.5, 0., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -264,7 +264,7 @@ TEST_CASE("testing the center of mass function") {
     project::boid b3{-1., 9., 0., 0.};
     project::boid b4{-10., 0., 0., 0.};
     project::boid b5{2., 4., 0., 0.};
-    project::module expected{-0.75,2.5};
+    project::components expected{-0.75,2.5};
     project::boids_flock flock{5, 20., 5., 0., 0., 0.};
     flock.addBoid(b1);
     flock.addBoid(b2);
@@ -280,9 +280,9 @@ TEST_CASE("Checking the cohesion rule") {
     project::boid b1{0., 0., 0., 0.};
     project::boid b2{4., 0., 0., 0.};
     project::boid b3{2., 2., 0., 0.};
-    project::module expected1{6.,2.};
-    project::module expected2{-6.,2.};
-    project::module expected3{0.,-4.};
+    project::components expected1{6.,2.};
+    project::components expected2{-6.,2.};
+    project::components expected3{0.,-4.};
     project::boids_flock flock{3, 20., 2., 0., 0., 2.};
     flock.addBoid(b1);
     flock.addBoid(b2);

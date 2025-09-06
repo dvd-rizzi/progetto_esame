@@ -13,20 +13,20 @@ struct boid {
 
 bool operator!=(boid a, boid b);
 
-struct module {
+struct components {
   double x;
   double y;
 };
 
-module operator+(module a, module b);
+components operator+(components a, components b);
 
-module operator-(module a, module b);
+components operator-(components a, components b);
 
-module operator*(double a, module b);
+components operator*(double a, components b);
 
-module operator/(module a, double b);
+components operator/(components a, double b);
 
-bool operator==(module a, module b);
+bool operator==(components a, components b);
 
 class boids_flock {
   std::vector<boid> flock_;
@@ -41,9 +41,9 @@ class boids_flock {
 
   bool lower_distance(boid const& a, boid const& b) const;
 
-  module reciprocal_distance(boid const& a, boid const& b) const;
+  components reciprocal_distance(boid const& a, boid const& b) const;
 
-  module center_of_mass_nearby(boid const& a) const;
+  components center_of_mass_nearby(boid const& a) const;
 
  public:
   boids_flock(int N, double d, double ds, double s, double a, double c) : N_{N}, d_{d}, ds_{ds}, s_{s}, a_{a}, c_{c} {}
@@ -54,9 +54,9 @@ class boids_flock {
 
   bool get_lower_distance(boid const& a, boid const& b) const;
 
-  module get_reciprocal_distance(boid const& a, boid const& b) const;
+  components get_reciprocal_distance(boid const& a, boid const& b) const;
 
-  module get_center_of_mass_nearby(boid const& a) const;
+  components get_center_of_mass_nearby(boid const& a) const;
 
   static boid boid_initialize();
 
@@ -64,11 +64,11 @@ class boids_flock {
 
   void addBoid(boid const& a);
 
-  module separation_rule(boid const& a) const;
+  components separation_rule(boid const& a) const;
 
-  module alignment_rule(boid const& a) const;
+  components alignment_rule(boid const& a) const;
 
-  module cohesion_rule(boid const& a) const;
+  components cohesion_rule(boid const& a) const;
 
   void corner_force();
 
@@ -80,7 +80,7 @@ class boids_flock {
 
   double mean_distance();
 
-  module external_effects(boid const& a);
+  components external_effects(boid const& a);
 
   void velocities_update();
 
